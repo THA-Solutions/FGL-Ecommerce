@@ -1,0 +1,191 @@
+.main {
+  display: flex;
+}
+
+/* Image Container */
+
+.img_container {
+  width: 50%;
+  background-image: url("https://source.unsplash.com/random/1000x900/?solar");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.img_container img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+/* Form Container */
+
+.form_container {
+  width: 50%;
+  background-color: #fff;
+  padding: 1em;
+  padding-left: 3em;
+  padding-right: 3em;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.form_container h1 {
+  text-align: center;
+  font-weight: 700;
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+.form_container label {
+  font-size: 1.2em;
+}
+
+.form_container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form_container form input {
+  padding: 0.7em;
+  border-radius: 10px;
+  border: solid 0.5px;
+  border-color: rgb(190, 186, 186);
+  margin-bottom: 0.5em;
+}
+
+.form_container form input:hover {
+  background-color: #eeeeee75;
+}
+
+.form_container form input[type="text"] {
+  margin-bottom: 2em;
+}
+
+.forget_password {
+  margin-top: 5px;
+  margin-bottom: 25px;
+  max-width: fit-content;
+}
+
+.form_container form button {
+  font-size: 1.8em;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.3em;
+  background-color: #ec4f22;
+  border: none;
+  cursor: pointer;
+}
+
+.form_container form button:hover {
+  background-color: rgb(243, 204, 131);
+}
+
+.orLine {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.container_button {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  gap: 10px;
+}
+
+.buttonGoogle,
+.buttonGitHub {
+  width: 50%;
+  font-size: 1.3em;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.3em;
+  border: none;
+  background-color: rgb(214, 206, 206);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.buttonGoogle:hover,
+.buttonGitHub:hover {
+  background-color: rgb(166, 157, 157);
+}
+
+.buttonGoogle svg {
+  font-size: 1.6em;
+}
+
+.notHaveAccount {
+  display: flex;
+  margin-top: 1em;
+  justify-content: center;
+}
+
+.linkRegister {
+  text-decoration: none;
+  font-weight: 600;
+  color: #000;
+  font-size: 1.1em;
+}
+
+.linkRegister:hover {
+  color: rgb(243, 204, 131);
+}
+
+/* Error */
+
+.input_error {
+  outline: 1px solid rgb(255, 72, 72);
+}
+
+.error_message {
+  color: rgb(255, 72, 72);
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+@media (max-width: 1083px) {
+  .form_container {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 850px) {
+  .img_container {
+    display: none;
+  }
+
+  .form_container {
+    width: 100%;
+    padding-left: 10em;
+    padding-right: 10em;
+  }
+
+  .form_container h1 {
+    margin-bottom: 1.5em;
+  }
+}
+
+@media (max-width: 550px) {
+  .form_container {
+    padding-left: 6em;
+    padding-right: 6em;
+  }
+}
+
+@media (max-width: 380px) {
+  .form_container {
+    padding-left: 3em;
+    padding-right: 3em;
+  }
+
+  @media (max-width: 320px) {
+    .notHaveAccount {
+      font-size: 1em;
+    }
+  }
+}

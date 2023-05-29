@@ -1,0 +1,167 @@
+.product_cart {
+  border-radius: 10px;
+  border: 1px solid rgb(209, 219, 219);
+  margin: 1em;
+  align-items: center;
+  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 3fr 0.5fr 2fr 0.5fr;
+}
+
+.product_img {
+  border-radius: 10px;
+}
+
+.product_title {
+  font-size: 23px;
+}
+
+.product_quantity {
+  width: 10%;
+  text-align: center;
+}
+
+.product_quantity h4 {
+  margin-left: 15px;
+  font-size: 18px;
+}
+
+.product_total {
+  text-align: center;
+}
+
+.product_total h4 {
+  font-size: 18px;
+}
+
+.product_total h3 {
+  font-size: 22px;
+}
+
+.product_remove {
+  margin-right: 2rem;
+}
+
+.product_remove button {
+  background-color: #fff;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.product_remove button:hover {
+  color: rgb(197, 63, 63);
+}
+
+.quantity_count {
+  display: flex;
+  gap: 10px;
+  margin-left: 10%;
+  align-items: center;
+}
+
+.quantity_count label {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.quantity_count button {
+  background-color: #fff;
+  border: none;
+  font-size: 20px;
+}
+
+@media (max-width: 1024px) {
+  .product_title {
+    font-size: 17px;
+    margin-left: 5px;
+    max-width: 30%;
+  }
+
+  .product_quantity h4 {
+    font-size: 15px;
+  }
+
+  .product_total h4 {
+    font-size: 17px;
+  }
+
+  .product_total h3 {
+    font-size: 20px;
+    margin-left: 5px;
+  }
+
+  .product_remove {
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .product_title {
+    max-width: 35%;
+  }
+}
+
+@media (max-width: 902px) {
+  .product_total h3 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 630px) {
+  .product_title {
+    font-size: 15px;
+    max-width: 30%;
+  }
+
+  .quantity_count button {
+    font-size: 15px;
+  }
+
+  .product_total h3 {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 540px) {
+  .product_img {
+    width: 10%;
+  }
+}
+
+@media (max-width: 469px) {
+  .product_cart {
+    display: grid;
+    justify-items: center;
+    padding: 10px;
+  }
+
+  .product_img {
+    width: 50%;
+    margin-bottom: 10px;
+  }
+  .product_title {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .product_quantity {
+    margin-bottom: 20px;
+  }
+
+  .product_total h4 {
+    margin-left: 10px;
+  }
+
+  .product_total h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .product_remove {
+    margin-left: 30px;
+  }
+
+  .product_remove button {
+    font-size: 30px;
+  }
+}

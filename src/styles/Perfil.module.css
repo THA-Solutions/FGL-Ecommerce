@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 2em;
+  gap: 1em;
+}
+
+.container h1 {
+  font-size: 3rem;
+}
+
+.container p {
+  font-size: 1.5rem;
+  align-items: first baseline;
+}
+
+.image {
+  padding: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+.container button {
+  width: 200px;
+  padding: 0.5rem;
+  background-color: #fff;
+  border: 2px solid #ae4848;
+  color: #ae4848;
+  border-radius: 0.25rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.container button:hover {
+  background-color: #ae4848;
+  color: #fff;
+}
