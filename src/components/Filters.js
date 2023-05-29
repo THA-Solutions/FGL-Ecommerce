@@ -65,9 +65,9 @@ export default function Filters(props) {
             }
             return acc;
           }, [])
-        ).map((potencia_modulo) => {
+        ).map((potencia_modulo, index) => {
           return (
-            <div className={styles.link} key={potencia_modulo}>
+            <div className={styles.link} key={index}>
               <input
                 onChange={handleOnCheckbox}
                 className={styles.filter_checkbox}
@@ -92,14 +92,17 @@ export default function Filters(props) {
         <h4 className={styles.filter_category_name}>Tensao de Saida</h4>
         {sortValues(
           produtos.reduce((acc, item) => {
-            if (!acc.includes(item.tensao_saida) && item.tensao_saida !== null) {
+            if (
+              !acc.includes(item.tensao_saida) &&
+              item.tensao_saida !== null
+            ) {
               acc.push(item.tensao_saida);
             }
             return acc;
           }, [])
-        ).map((tensao_saida) => {
+        ).map((tensao_saida, index) => {
           return (
-            <div className={styles.link} key={tensao_saida}>
+            <div className={styles.link} key={index}>
               <input
                 onChange={handleOnCheckbox}
                 className={styles.filter_checkbox}
@@ -125,33 +128,32 @@ export default function Filters(props) {
         {sortValues(
           produtos.reduce((acc, item) => {
             if (
-              !acc.includes(item.quantidade_mppt) &&
-              item.quantidade_mppt !== null
+              item.quantidade_mppt !== null &&
+              !acc.includes(Number(item.quantidade_mppt))
             ) {
               acc.push(Number(item.quantidade_mppt));
             }
             return acc;
           }, [])
-        ).map((quantidade_mppt) => {
+        ).map((quantidade_mppt, index) => {
           return (
-            <div className={styles.link} key={Number(quantidade_mppt)}>
+            <div className={styles.link} key={index}>
               <input
                 onChange={handleOnCheckbox}
                 className={styles.filter_checkbox}
                 type="checkbox"
                 name="quantidade_mppt"
-                id={Number(quantidade_mppt)}
-                value={Number(quantidade_mppt)}
+                id={quantidade_mppt}
+                value={quantidade_mppt}
               />
               <label
                 className={styles.filter_subcategory}
-                htmlFor={Number(quantidade_mppt)}
+                htmlFor={quantidade_mppt}
               >
-                {Number(quantidade_mppt)}
+                {quantidade_mppt}
               </label>
             </div>
           );
-          
         })}
       </div>
 
@@ -160,14 +162,17 @@ export default function Filters(props) {
         <h4 className={styles.filter_category_name}>Potencia de Saida</h4>
         {sortValues(
           produtos.reduce((acc, item) => {
-            if (!acc.includes(item.potencia_saida) && item.potencia_saida !== null) {
+            if (
+              !acc.includes(item.potencia_saida) &&
+              item.potencia_saida !== null
+            ) {
               acc.push(item.potencia_saida);
             }
             return acc;
           }, [])
-        ).map((potencia_saida) => {
+        ).map((potencia_saida, index) => {
           return (
-            <div className={styles.link} key={potencia_saida}>
+            <div className={styles.link} key={index}>
               <input
                 onChange={handleOnCheckbox}
                 className={styles.filter_checkbox}

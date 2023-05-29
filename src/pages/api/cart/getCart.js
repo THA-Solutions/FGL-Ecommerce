@@ -1,7 +1,6 @@
 import db from "../../../lib/db";
 
 export default async function getCartItems(req, res) {
-  console.log("getCartItems");
   try {
     const email = req.query.email;
     const user = await db.user.findUnique({
@@ -38,11 +37,22 @@ export default async function getCartItems(req, res) {
       },
     }); //Se existir, retorna os itens do carrinho de acordo com o id_pedido
 
-    const total = carts.reduce((total, item) => total + item.total, 0);
+    const total = carts.reduce((total, item) => {
+      return Number(total) + Number(item.total);
+    }, 0);
     const result = {
       carts: carts,
       total: total,
     };
+
+    await db.pedido.update({
+      where: {
+        id_pedido: cartItems.id_pedido,
+      },
+      data: {
+        total: total,
+      },
+    });
     res.status(200).json(result);
 
     return carts, total; //Retorna os itens do carrinho

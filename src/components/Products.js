@@ -29,7 +29,6 @@ export default function Products() {
         const response = await axios.get(
           "http://localhost:3000/api/product/getProductList"
         );
-
         const listaProdutosTratada = response.data.map((product) => {
           return {
             id: product.id_produto,
@@ -42,10 +41,9 @@ export default function Products() {
             tensao_saida: product.tensao_saida,
           };
         });
-
         setProdutosNoBancoDeDados(listaProdutosTratada);
       } catch (error) {
-        console.error(error);
+        console.error("Erro ao carregar a pagina de produtos", error);
       }
     }
     fetchData();
@@ -87,6 +85,8 @@ export default function Products() {
         setShoppingCart(() => newCartItem);
         await addCartItem(newCartItem);
       }
+    } else {
+      alert("Faça login para adicionar ao carrinho");
     }
   };
   async function addCartItem(item) {
@@ -100,6 +100,9 @@ export default function Products() {
     );
     return addCartItem.data;
   }
+  const productsList = produtosNoBancoDeDados.filter((product) =>
+    product.titulo.toLocaleLowerCase().includes(search.toLowerCase())
+  );
 
   const getCartValue = () => {
     const total = 1;

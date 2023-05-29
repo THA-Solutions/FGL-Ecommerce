@@ -1,12 +1,6 @@
-import logo from "../../../../public/fgl_logo.png";
-
 const nodemailer = require("nodemailer");
-
-const fs = require("fs");
-const path = require("path");
-
-const imagePath = "public/fgl_logo.png";
-const imageContent = fs.readFileSync(imagePath, { encoding: "base64" });
+import UInumber from "@/UI/UInumber";
+import Image from "next/image";
 
 export default async function sendEmail(req, res) {
   try {
@@ -18,7 +12,8 @@ export default async function sendEmail(req, res) {
         pass: process.env.USER_PASSWORD,
       },
     });
-    const { itemCart, total } = req.body;
+    const { itemCart, total, session } = req.body;
+    console.log(session);
     const items = itemCart.map((item) => {
       return `
         <div 
@@ -61,9 +56,9 @@ export default async function sendEmail(req, res) {
         <div style="width: 50%">
           <h3 style="font-size: 20px">Dados pessoais</h3>
           <div style="font-size: 15px">
-            <h4>Nome: ${1}</h4>
-            <h4>Email:  ${1}</h4>
-            <h4>Telefone: ${1}</h4>
+            <h4>Nome: ${session.user.name}</h4>
+            <h4>Email:  ${session.user.email}</h4>
+            <h4>Telefone: ${123}</h4>
           </div>
         </div>    
         <div style="width: 50%">

@@ -30,7 +30,6 @@ class productService {
 
   async getComments(id) {
     try {
-      
       const id_produto = Number(id);
       const comment = await db.comentarios.findMany({
         where: {

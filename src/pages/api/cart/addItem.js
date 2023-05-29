@@ -25,7 +25,6 @@ export default async function handlerCartItems(req, res) {
           },
         },
       });
-
       const checkIfInCart = await Promise.all(
         shoppingCart.map(async (item) => {
           try {
@@ -35,17 +34,16 @@ export default async function handlerCartItems(req, res) {
                 id_pedido: userPedido.pedido[0].id_pedido,
               },
             });
-
             if (productInCart) {
-              productInCart.quantidade++;
+              let quantidade = productInCart.quantidade++;
+              console.log(typeof quantidade, typeof item.preco);
               const produto_updtd = await db.itempedido.update({
                 where: { id_itempedido: productInCart.id_itempedido },
                 data: {
-                  quantidade: productInCart.quantidade,
-                  total: item.preco * productInCart.quantidade,
+                  quantidade: quantidade,
+                  total: Number(item.preco) * quantidade,
                 },
               });
-              console.log(produto_updtd, 'produto_updtd');
               return produto_updtd;
             } else {
               const produto_crtd = await db.itempedido.create({
@@ -57,7 +55,6 @@ export default async function handlerCartItems(req, res) {
                   total: item.preco * item.quantidade,
                 },
               });
-              console.log(produto_crtd, 'produto_crtd');
               return produto_crtd;
             }
           } catch (error) {

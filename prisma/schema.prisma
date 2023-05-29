@@ -17,8 +17,6 @@ model carregamento {
   tensao_entrada  String?
   polos           String?
   produto         produto? @relation(fields: [id_produto], references: [id_produto], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([id_produto])
 }
 
 model comentarios {
@@ -27,8 +25,6 @@ model comentarios {
   descricao       String?
   data_lancamento DateTime? @default(now())
   produto         produto?  @relation(fields: [id_produto], references: [id_produto], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([id_produto])
 }
 
 model imagens {
@@ -36,8 +32,6 @@ model imagens {
   id_imagem  Int      @id @default(autoincrement())
   imagem     Bytes?
   produto    produto? @relation(fields: [id_produto], references: [id_produto], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([id_produto])
 }
 
 model inversor {
@@ -53,8 +47,6 @@ model inversor {
   tensao_saida     String?
   quantidade_mppt  Decimal?
   produto          produto? @relation(fields: [id_produto], references: [id_produto], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([id_produto])
 }
 
 model itempedido {
@@ -63,12 +55,9 @@ model itempedido {
   id_pedido      Int?
   titulo_produto String?
   quantidade     Int?
-  total          Decimal? @db.Decimal(65, 2)
+  total          Decimal?
   pedido         pedido?  @relation(fields: [id_pedido], references: [id_pedido], onDelete: NoAction, onUpdate: NoAction, map: "fk_pedido")
   produto        produto? @relation(fields: [id_produto], references: [id_produto], onDelete: NoAction, onUpdate: NoAction, map: "fk_novo_produto")
-
-  @@index([id_pedido])
-  @@index([id_produto])
 }
 
 model microinversores {
@@ -83,8 +72,6 @@ model microinversores {
   quantidade_mppt Int?
   frequencia      String?
   produto         produto? @relation(fields: [id_produto], references: [id_produto], onDelete: NoAction, onUpdate: NoAction, map: "fk_microinversores_produto")
-
-  @@index([id_produto])
 }
 
 model monitoramento {
@@ -96,8 +83,6 @@ model monitoramento {
   comunicacao      String?
   consumo          String?
   produto          produto? @relation(fields: [id_produto], references: [id_produto], onDelete: NoAction, onUpdate: NoAction, map: "fk_moni_produto")
-
-  @@index([id_produto])
 }
 
 model painel {
@@ -112,19 +97,17 @@ model painel {
   corrente_curto        String?
   corrente_fusivel      String?
   produto               produto? @relation(fields: [id_produto], references: [id_produto], onDelete: NoAction, onUpdate: NoAction, map: "fk_painel_produto")
-
-  @@index([id_produto])
 }
 
 model pedido {
   id_pedido    Int          @id @default(autoincrement())
-  id_usuario   String       @map("id_usuario")
+  id_usuario   String      @map("id_usuario")
   valor_frete  Decimal?     @db.Decimal(10, 2)
   total_pedido Decimal?     @db.Decimal(10, 2)
   status       String
   itempedido   itempedido[]
+  user         user        @relation(fields: [id_usuario], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_id_usuario_pedido")
 
-  @@map("pedido")
 }
 
 model produto {
@@ -150,18 +133,51 @@ model produto {
   painel          painel[]
 }
 
-model endereco {
-  id_endereco Int     @id @default(autoincrement())
-  cep         Int
-  logradouro  String?
-  numero      Int?
-  bairro      String?
-  complemento String?
-  cidade      String?
-  estado      String?
-  userId      String? @map("user_id")
+model user {
+  id            String     @id @default(uuid()) @map("id_usuario")
+  name          String?    @db.VarChar(250)
+  username      String?     @db.VarChar(250)
+  email         String?   @unique @db.VarChar(250)
+  emailVerified DateTime?  @db.DateTime(6)
+  image         String?
+  password      String?
+  phone         BigInt?
+  createdAt     DateTime?  @default(now())
+  updatedAt     DateTime?  @updatedAt
+  account       account[]
+  endereco      endereco[]
+  pedido        pedido[]
+  session       session[]
 
-  @@map("endereco")
+}
+
+
+model account {
+  id                String  @id @default(cuid())
+  userId            String  @db.VarChar(250)
+  type              String  @db.VarChar(250)
+  provider          String  @db.VarChar(250)
+  providerAccountId String  @db.VarChar(250)
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String? @db.VarChar(250)
+  scope             String? @db.VarChar(250)
+  id_token          String? @db.Text
+  session_state     String? @db.VarChar(250)
+  user                user    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_conta_usuario")
+
+  @@unique([provider, providerAccountId])
+}
+  
+ 
+
+model session  {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  sessionToken String   @unique @map("session_token") @db.VarChar(250)
+  expires      DateTime
+  user         user      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sessao_usuario")
 }
 
 model VerificationToken {
@@ -172,39 +188,19 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model account {
-  id                String  @id
-  type              String  @db.VarChar(250)
-  provider          String  @db.VarChar(250)
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String? @db.VarChar(250)
-  scope             String? @db.VarChar(250)
-  id_token          String? @db.Text
-  session_state     String? @db.VarChar(250)
-  providerAccountId String  @db.VarChar(250)
-  userId            String  @db.VarChar(250)
 
-  @@unique([provider, providerAccountId])
-}
 
-model session {
-  id            String   @id
-  user_id       String
-  session_token String   @unique @db.VarChar(250)
-  expires       DateTime
-}
+model endereco {
+  userId  String? @map("user_id")
+  id_endereco Int     @id @default(autoincrement())
+  cep         Int
+  logradouro  String?
+  numero      Int?
+  bairro      String?
+  complemento String?
+  cidade      String?
+  estado      String?
+  user     user?   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-model user {
-  id_usuario    String    @id
-  name          String?   @db.VarChar(250)
-  username      String?   @db.VarChar(250)
-  email         String?   @unique @db.VarChar(250)
-  emailVerified DateTime? @db.DateTime(6)
-  image         String?
-  password      String?
-  phone         BigInt?
-  createdAt     DateTime? @default(now())
-  updatedAt     DateTime?
+  @@map("endereco")
 }

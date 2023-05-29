@@ -1,5 +1,7 @@
 import { createContext, useState } from "react";
+
 export const FilterContext = createContext();
+
 export const FilterProvider = ({ children }) => {
   const [listaProdutos, setListaProdutos] = useState([]);
   const [dadosFiltrados, setDadosFiltrados] = useState([]);
@@ -7,7 +9,7 @@ export const FilterProvider = ({ children }) => {
 
   const handleOnCheckbox = (event) => {
     const filterParam = event.target.name;
-    console.log(filterParam);
+
     setMarcasSelecionadas({
       ...marcasSelecionadas,
       [event.target.value]: event.target.checked,
@@ -18,11 +20,9 @@ export const FilterProvider = ({ children }) => {
       //);
       const campoFiltrado = listaProdutos.filter((item) => {
         let value;
-        if (event.target.value !== null) {
-          value =
-            filterParam === "quantidade_mppt"
-              ? Number(event.target.value)
-              : event.target.value;
+        if (event.target.value !== null && filterParam !== null) {
+          value = event.target.value;
+          console.log(value, item[filterParam], "a");
           return item[filterParam] === value;
         }
       });
@@ -32,10 +32,8 @@ export const FilterProvider = ({ children }) => {
       const campoFiltrado = dadosFiltrados.filter((item) => {
         let value;
         if (event.target.value !== null) {
-          value =
-            filterParam === "quantidade_mppt"
-              ? Number(event.target.value)
-              : event.target.value;
+          value = event.target.value;
+          console.log(value, item[filterParam], "bb");
           return item[filterParam] !== value;
         }
       });

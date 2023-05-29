@@ -14,17 +14,10 @@ export default function Cart() {
   const [itemCart, setItemCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [refreshCart, setRefreshCart] = useState(false);
-  const [currentSession, setSession] = useState({ email: null });
   const { data: session } = useSession();
 
   useEffect(() => {
     try {
-      function getSession() {
-        if (session) {
-          setSession(session);
-        }
-      }
-      getSession();
       async function getCartItems() {
         const produto = await axios.get(`/api/cart/getCart`, {
           params: { email: session.user.email },
@@ -83,6 +76,7 @@ export default function Cart() {
     const result = await axios.post(`/api/email/sendEmail`, {
       itemCart: itemCart,
       total: total,
+      session: session,
     });
     return result;
   };
@@ -163,9 +157,7 @@ export default function Cart() {
           <Link
             href="/Register/address"
             onClick={() => {
-              //sendEmail();
-              const teste = "seila";
-              return teste;
+              sendEmail();
             }}
           >
             <button> FINALIZAR COMPRA </button>
