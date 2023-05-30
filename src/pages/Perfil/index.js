@@ -2,13 +2,20 @@ import styles from "../../styles/Perfil.module.css";
 import Image from "next/image";
 import perfilImagemAlternative from "../../../public/fgl_quadrado.png";
 import { getSession, signOut, useSession } from "next-auth/react";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
 export default function Perfil() {
   const { data: session } = useSession();
   const [updateInfo, setUpdateInfo] = useState(true);
-  console.log(session);
 
+  useEffect(() => {
+  async function getCartItems() {
+    const produto = await axios.get(`/api/cart/getCart`, {
+    params: { email: session.user.email },
+  });}
+  getCartItems();
+}, []);
+  
   return (
     <div className={styles.container}>
       {/* Image Container */}

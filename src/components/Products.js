@@ -43,6 +43,7 @@ export default function Products() {
             potencia_saida: product.potencia_saida,
             quantidade_mppt: product.quantidade_mppt,
             tensao_saida: product.tensao_saida,
+            img: "handleImagePaths()",
           };
         });
 
@@ -155,11 +156,11 @@ export default function Products() {
               <div className={styles.product_box} key={product.id}>
                 <Link className={styles.link_product} href={`/${product.id}`}>
                   <Image
-                    className={styles.product_img}
                     width={220}
-                    height={300}
+                    height={380}
                     src={`/${product.marca}/${subCaract(product.modelo)}.png`}
-                    alt="imagem do produto"
+                    alt=""
+                    className={styles.product_img + " " + styles.img}
                   />
                   <h2 className={styles.product_title}>{product.titulo}</h2>
                 </Link>
