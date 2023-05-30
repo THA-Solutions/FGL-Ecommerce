@@ -29,7 +29,7 @@ export default async function remCartItem(req, res) {
         id_itempedido: "asc",
       },
     });
-    console.log(item, "itemm");
+    
     let quantidade =
       acao === "increase"
         ? item.quantidade + 1

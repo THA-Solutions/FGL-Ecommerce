@@ -28,6 +28,7 @@ export default async function handlerCartItems(req, res) {
       const checkIfInCart = await Promise.all(
         shoppingCart.map(async (item) => {
           try {
+            
             const productInCart = await db.itempedido.findFirst({
               where: {
                 titulo_produto: item.titulo,
@@ -36,11 +37,12 @@ export default async function handlerCartItems(req, res) {
             });
             if (productInCart) {
               let quantidade = productInCart.quantidade++;
+
               const produto_updtd = await db.itempedido.update({
-                where: { id_itempedido: productInCart.id_itempedido },
+                where: { id_itempedido: productInCart.id_itempedido},
                 data: {
                   quantidade: quantidade,
-                  total: Number(item.preco) * quantidade,
+                  total: (Number(item.preco) * quantidade),
                 },
               });
               return produto_updtd;

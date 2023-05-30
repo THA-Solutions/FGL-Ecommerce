@@ -11,6 +11,9 @@ import { BsCartFill } from "react-icons/bs";
 import { useSession, getSession } from "next-auth/react";
 import { SearchContext } from "../context/SearchContext";
 import { FilterContext } from "@/context/FilterContext";
+import imagem from "../../public/growatt/57566-9.png";
+//import fs from 'fs';
+//import path from 'path';
 
 export default function Products() {
   const { data: session, status } = useSession();
@@ -24,9 +27,11 @@ export default function Products() {
 
   function subCaract(texto) {
     const caracteresEspeciais = /[!@#$%&*()+=[\]{}|\\/<>,.?:;]/g;
-    return texto.replace(caracteresEspeciais, "-");
+    return texto.replace(caracteresEspeciais, '-');
   }
 
+
+  
   useEffect(() => {
     async function fetchData() {
       try {
@@ -34,6 +39,7 @@ export default function Products() {
           "http://localhost:3000/api/product/getProductList"
         );
         const listaProdutosTratada = response.data.map((product) => {
+
           return {
             id: product.id_produto,
             titulo: product.titulo,
@@ -44,10 +50,10 @@ export default function Products() {
             potencia_saida: product.potencia_saida,
             quantidade_mppt: product.quantidade_mppt,
             tensao_saida: product.tensao_saida,
-            
+            img: "handleImagePaths()",
           };
         });
-
+        
         setProdutosNoBancoDeDados(listaProdutosTratada);
         console.log("listaProdutosTratada: ", listaProdutosTratada);
       } catch (error) {
@@ -56,6 +62,10 @@ export default function Products() {
     }
     fetchData();
   }, [session]);
+
+
+
+
 
   const handleAddToCart = async (id) => {
     if (session) {
@@ -153,11 +163,11 @@ export default function Products() {
               <div className={styles.product_box} key={product.id}>
                 <Link className={styles.link_product} href={`/${product.id}`}>
                   <Image
-                    className={styles.product_img}
                     width={220}
-                    height={300}
+                    height={380}
                     src={`/${product.marca}/${subCaract(product.modelo)}.png`}
-                    alt="imagem do produto"
+                    alt=""
+                    className={styles.product_img + " " + styles.img}
                   />
                   <h2 className={styles.product_title}>{product.titulo}</h2>
                 </Link>

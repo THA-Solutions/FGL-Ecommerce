@@ -36,7 +36,6 @@ export const FilterProvider = ({ children }) => {
         }
       });
       setDadosFiltrados([...campoFiltrado]);
-      console.log(campoFiltrado, "campo nao filtrado");
     }
   };
 
