@@ -11,9 +11,6 @@ import { BsCartFill } from "react-icons/bs";
 import { useSession, getSession } from "next-auth/react";
 import { SearchContext } from "../context/SearchContext";
 import { FilterContext } from "@/context/FilterContext";
-import imagem from "../../public/growatt/57566-9.png";
-//import fs from 'fs';
-//import path from 'path';
 
 export default function Products() {
   const { data: session, status } = useSession();
@@ -27,11 +24,9 @@ export default function Products() {
 
   function subCaract(texto) {
     const caracteresEspeciais = /[!@#$%&*()+=[\]{}|\\/<>,.?:;]/g;
-    return texto.replace(caracteresEspeciais, '-');
+    return texto.replace(caracteresEspeciais, "-");
   }
 
-
-  
   useEffect(() => {
     async function fetchData() {
       try {
@@ -52,7 +47,7 @@ export default function Products() {
             img: "handleImagePaths()",
           };
         });
-        
+
         setProdutosNoBancoDeDados(listaProdutosTratada);
         console.log("listaProdutosTratada: ", listaProdutosTratada);
       } catch (error) {
@@ -61,10 +56,6 @@ export default function Products() {
     }
     fetchData();
   }, [session]);
-
-
-
-
 
   const handleAddToCart = async (id) => {
     if (session) {
@@ -162,11 +153,11 @@ export default function Products() {
               <div className={styles.product_box} key={product.id}>
                 <Link className={styles.link_product} href={`/${product.id}`}>
                   <Image
+                    className={styles.product_img}
                     width={220}
-                    height={380}
+                    height={300}
                     src={`/${product.marca}/${subCaract(product.modelo)}.png`}
-                    alt=""
-                    className={styles.product_img + " " + styles.img}
+                    alt="imagem do produto"
                   />
                   <h2 className={styles.product_title}>{product.titulo}</h2>
                 </Link>

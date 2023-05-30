@@ -27,7 +27,7 @@
 
 .shop_content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, auto));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 270px));
   gap: 1.5rem;
   margin-right: 1rem;
 }
@@ -36,22 +36,27 @@
   position: relative;
   max-width: max-content;
   max-height: min-content;
+  padding: 1em;
+  border: 1px solid #cacaca;
 }
 
 .link_product {
   text-decoration: none;
-  color: black;
+  color: #333;
 }
 
 .product_box:hover {
   border: 1px solid black;
-  padding: 5px;
-  transition: 0.4s;
+  color: #ec4f22;
+  transition: 0.3s;
+  .price {
+    font-size: 1.5rem;
+    transition: 0.3s;
+  }
 }
 
 .product_img {
-  width: auto;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .product_title {
@@ -65,6 +70,8 @@
 .price {
   font-weight: 500;
   font-size: 1.2rem;
+  margin-bottom: 2rem;
+  transition: 0.4s;
 }
 
 .add_cart {
