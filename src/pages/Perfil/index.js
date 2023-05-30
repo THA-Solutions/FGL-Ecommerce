@@ -1,9 +1,11 @@
 import styles from "../../styles/Perfil.module.css";
 import Image from "next/image";
+import perfilImagemAlternative from "../../../public/fgl_quadrado.png";
 import { getSession, signOut, useSession } from "next-auth/react";
 
 export default function Perfil() {
   const { data: session } = useSession();
+  console.log(session);
 
   return (
     <div className={styles.container}>
@@ -13,7 +15,7 @@ export default function Perfil() {
         className={styles.image}
         width={100}
         height={100}
-        src={session?.user?.image}
+        src={session?.user?.image || perfilImagemAlternative}
         alt="Imagem de perfil"
       />
 

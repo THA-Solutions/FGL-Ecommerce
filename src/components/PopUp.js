@@ -11,7 +11,7 @@ export default function PopUp(props) {
           onClick={() => props.setTrigger(false)}
         >
           OK
-        </button> 
+        </button>
       </div>
     </div>
   ) : (

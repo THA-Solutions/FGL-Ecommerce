@@ -14,10 +14,10 @@ export async function register(body) {
     } else {
       const createdUser = await db.user.create({
         data: {
-          nome: `${userData.firstName} ${userData.lastName}`,
+          name: `${userData.firstName} ${userData.lastName}`,
           email: userData.email,
-          senha: userData.password,
-          telefone: Number(userData.phone),
+          password: userData.password,
+          phone: Number(userData.phone),
         },
       });
       return createdUser;
@@ -71,17 +71,17 @@ export async function checkAddress(param){
 export async function singInResquest(body) {
   try {
     const userData = body;
-    console.log(userData, "a");
+    console.log(userData, "QLQ COISA 2");
     const user = await db.user.findUnique({
       where: {
         email: userData.email,
       },
     });
-    console.log(user, "user");
+    console.log(user, "QLQ COISA");
     const validate = bcrypt.compareSync(userData.password, user.password);
     if (validate) {
       return {
-        name: user.nome,
+        name: user.name,
         email: user.email,
         phone: user.phone,
         id: user.id,

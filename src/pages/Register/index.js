@@ -172,7 +172,7 @@ export default function Register() {
               )}
             </div>
 
-            <div className={styles.field + " " + styles.input_field}>
+            {/* <div className={styles.field + " " + styles.input_field}>
               <input
                 className={
                   errors?.password && styles.input_error + " " + styles.input
@@ -195,7 +195,7 @@ export default function Register() {
                   A senha deve ter no mínimo 8 caracteres
                 </span>
               )}
-            </div>
+            </div> */}
 
             <div className={styles.field + " " + styles.button_field}>
               <button type="submit">CADASTRAR</button>
