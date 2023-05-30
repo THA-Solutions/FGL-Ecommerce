@@ -157,7 +157,7 @@ export default function Products() {
                 <Link className={styles.link_product} href={`/${product.id}`}>
                   <Image
                     width={220}
-                    height={380}
+                    height={300}
                     src={`/${product.marca}/${subCaract(product.modelo)}.png`}
                     alt=""
                     className={styles.product_img + " " + styles.img}
