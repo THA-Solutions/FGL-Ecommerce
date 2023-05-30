@@ -16,10 +16,11 @@ export default function Login() {
 
   async function handleSignIn(data) {
     try {
-      signIn("credentials", {
+      const res = await signIn("credentials", {
         email: data.email,
         password: data.password,
       });
+      console.log(res);
     } catch (error) {
       setError(error.message);
     }

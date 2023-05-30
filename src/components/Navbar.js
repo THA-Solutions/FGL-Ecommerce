@@ -7,7 +7,7 @@ import Link from "next/link";
 import fgl from "../../public/fgl_logo.png";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import { BsCartFill, BsFillPersonFill } from "react-icons/bs";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -32,11 +32,14 @@ export default function Navbar() {
             </button>
           </Link>
           {!session ? (
-            <Link className={styles.link} href="/Login">
-              <button>
-                LOGIN <BsFillPersonFill />
-              </button>
-            </Link>
+            // <Link className={styles.link} href="/Login">
+            //   <button>
+            //     LOGIN <BsFillPersonFill />
+            //   </button>
+            // </Link>
+            <button onClick={() => signIn()}>
+              LOGIN <BsFillPersonFill />
+            </button>
           ) : (
             <Link className={styles.link} href="/Perfil">
               <button>
