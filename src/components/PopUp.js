@@ -6,12 +6,12 @@ export default function PopUp(props) {
     <div className={styles.popup}>
       <div className={styles.popup_inner}>
         {props.children}
-        <button
+        {/* <button
           className={styles.close_btn}
           onClick={() => props.setTrigger(false)}
         >
           OK
-        </button>
+        </button> */}
       </div>
     </div>
   ) : (

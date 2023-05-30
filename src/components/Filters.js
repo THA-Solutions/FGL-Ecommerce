@@ -54,7 +54,7 @@ export default function Filters(props) {
 
       {/* Potencia do Modulo */}
       <div className={styles.filter_category}>
-        <h4 className={styles.filter_category_name}>Potencia do Modulo</h4>
+        <h4 className={styles.filter_category_name}>Potência do Módulo</h4>
         {sortValues(
           produtos.reduce((acc, item) => {
             if (
@@ -89,7 +89,7 @@ export default function Filters(props) {
 
       {/* Tensao de Saida */}
       <div className={styles.filter_category}>
-        <h4 className={styles.filter_category_name}>Tensao de Saida</h4>
+        <h4 className={styles.filter_category_name}>Tensão de Saída</h4>
         {sortValues(
           produtos.reduce((acc, item) => {
             if (
@@ -159,7 +159,7 @@ export default function Filters(props) {
 
       {/* Potencia de Saida */}
       <div className={styles.filter_category}>
-        <h4 className={styles.filter_category_name}>Potencia de Saida</h4>
+        <h4 className={styles.filter_category_name}>Potência de Saída</h4>
         {sortValues(
           produtos.reduce((acc, item) => {
             if (
