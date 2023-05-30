@@ -1,17 +1,27 @@
 import React from "react";
 import styles from "../styles/PopUp.module.css";
 
-export default function PopUp(props) {
-  return props.trigger ? (
+export default function PopUp({
+  children,
+  trigger,
+  setTrigger,
+  buttonVisible,
+  buttonText,
+}) {
+  return trigger ? (
     <div className={styles.popup}>
       <div className={styles.popup_inner}>
-        {props.children}
-        {/* <button
-          className={styles.close_btn}
-          onClick={() => props.setTrigger(false)}
-        >
-          OK
-        </button> */}
+        {children}
+        {buttonVisible ? (
+          <button
+            className={styles.close_btn}
+            onClick={() => setTrigger(false)}
+          >
+            {buttonText}
+          </button>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   ) : (

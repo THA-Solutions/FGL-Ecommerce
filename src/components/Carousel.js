@@ -6,7 +6,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
 export default function CarouselComponent() {
-  const [items, setItems] = useState([
+  const [items] = useState([
     <Image
       width={1300}
       height={150}

@@ -13,14 +13,13 @@ import { SearchContext } from "../context/SearchContext";
 import { FilterContext } from "@/context/FilterContext";
 
 export default function Products() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const { dadosFiltrados } = useContext(FilterContext);
   const { search } = useContext(SearchContext);
   const [produtosNoBancoDeDados, setProdutosNoBancoDeDados] = useState([]);
   const [shoppingCart, setShoppingCart] = useState([]);
-  const [currentSession, setSession] = useState({ email: null });
-  const [showPopUp, setShowPopUp] = useState(false);
-  const [imagePaths, setImagePaths] = useState([]);
+  const [addCartPopUp, setAddCartPopUp] = useState(false);
+  const [loginPopUp, setLoginPopUp] = useState(false);
 
   function subCaract(texto) {
     const caracteresEspeciais = /[!@#$%&*()+=[\]{}|\\/<>,.?:;]/g;
@@ -44,7 +43,6 @@ export default function Products() {
             potencia_saida: product.potencia_saida,
             quantidade_mppt: product.quantidade_mppt,
             tensao_saida: product.tensao_saida,
-            
           };
         });
 
@@ -93,8 +91,6 @@ export default function Products() {
         setShoppingCart(() => newCartItem);
         await addCartItem(newCartItem);
       }
-    } else {
-      alert("Faça login para adicionar ao carrinho");
     }
   };
 
@@ -130,6 +126,12 @@ export default function Products() {
   } else {
     produtos = produtosFiltradosPelaSearchBar;
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAddCartPopUp(false);
+    }, 3500);
+  }, [addCartPopUp]);
 
   return (
     <>
@@ -169,7 +171,8 @@ export default function Products() {
                   className={styles.add_cart}
                   onClick={() => {
                     handleAddToCart(product.id);
-                    setShowPopUp(true);
+                    setAddCartPopUp(true);
+                    setLoginPopUp(true);
                   }}
                 >
                   <BsCartFill />
@@ -180,15 +183,19 @@ export default function Products() {
         </section>
       </div>
       {session ? (
-        <PopUp trigger={showPopUp} setTrigger={setShowPopUp}>
-          <h3>Produto adicionado ao carrinho!</h3>
+        <PopUp trigger={addCartPopUp} buttonVisible={false}>
+          <h3>
+            Produto adicionado ao carrinho <BsCartFill />
+          </h3>
         </PopUp>
       ) : (
-        <PopUp trigger={showPopUp} setTrigger={setShowPopUp}>
-          <h3>
-            Faça <Link href="Login">LOGIN</Link> para adicionar produtos ao
-            carrinho.
-          </h3>
+        <PopUp
+          trigger={loginPopUp}
+          setTrigger={setLoginPopUp}
+          buttonVisible={true}
+          buttonText={"OK"}
+        >
+          <h3>Faça LOGIN para adicionar produtos ao carrinho.</h3>
         </PopUp>
       )}
     </>
