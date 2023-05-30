@@ -50,7 +50,7 @@ export default async function getCartItems(req, res) {
         id_pedido: cartItems.id_pedido,
       },
       data: {
-        total: total,
+        total_pedido: total,
       },
     });
     res.status(200).json(result);

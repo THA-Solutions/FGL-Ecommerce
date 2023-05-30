@@ -28,42 +28,44 @@ export async function register(body) {
 }
 
 export async function registerAddress(body) {
-  const addressData = JSON.parse(body);
+  try {
+    const addressData = JSON.parse(body);
+    const user = await db.user.findUnique({where:{email:addressData.userEmail}})
+  const address= await db.endereco.findMany({where:{	userId:user.id}})
+   if (address) {
+    return address
+   }else{
+    const createdAddress = await db.endereco.create({
+      data: {
+        cep: Number(addressData.cep),
+        logradouro: addressData.logradouro,
+        numero: Number(addressData.numero),
+        bairro: addressData.bairro,
+        complemento: addressData.complemento,
+        cidade: addressData.cidade,
+        estado: addressData.estado,
+        userId: user.id,
+      },
+    });
+    return createdAddress;
+   }
+  } catch (error) {
+    console.error("Erro na criacao do endereço", error)
+  }
+}
 
-  const user = await db.user.findUnique({
-    where: {
-      email: addressData.userEmail,
-    },
-  });
-
-  console.log("Endereço: ", addressData);
-  console.log("Usuário: ", user);
-
-  // if (!user.id_endereco) {
-  //   const createdAddress = await db.endereco.create({
-  //     data: {
-  //       cep: addressData.cep,
-  //       logradouro: addressData.logradouro,
-  //       numero: addressData.numero,
-  //       bairro: addressData.bairro,
-  //       complemento: addressData.complemento,
-  //       cidade: addressData.cidade,
-  //       estado: addressData.estado,
-  //       id_usuario: user.id,
-  //     },
-  //   });
-
-  //   db.user.update({
-  //     where: {
-  //       id: user.id,
-  //     },
-  //     data: {
-  //       id_endereco: createdAddress.id,
-  //     },
-  //   });
-  // }
-
-  // return createdAddress;
+export async function checkAddress(param){
+  try{
+  const user = await db.user.findUnique({where:{email:param}})
+  if(user){
+  const address= await db.endereco.findMany({where:{	userId:user.id}})
+  return address
+  }else{
+    return
+  }
+  }catch{
+    console.error("Erro ao buscar endereço", error)
+  }
 }
 
 export async function singInResquest(body) {

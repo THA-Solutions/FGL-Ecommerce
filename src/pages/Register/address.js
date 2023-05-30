@@ -1,13 +1,15 @@
 import styles from "../../styles/Login.module.css";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { get, set, useForm } from "react-hook-form";
 import Link from "next/link";
-
+import axios from "axios";
 export default function RegisterAdress() {
   const { data: session } = useSession();
   const [error, setError] = useState("");
-
+  const [habilitar, setHabilitar] = useState(false);
+  const [displayValue, setDisplayValue] = useState("none");
+  
   const {
     register,
     handleSubmit,
@@ -58,6 +60,41 @@ export default function RegisterAdress() {
     }
   };
 
+
+  useEffect(() => {
+    async function getAddress(){
+      try {
+        const address=await axios.get("/api/user/checkAddress",{
+          params:{
+            email:session.user?.email
+          }
+        }).then((res)=>res.data)
+      if(address){
+          setValue("cep", address[0].cep);
+          setValue("logradouro", address[0].logradouro);
+          setValue("bairro", address[0].bairro);
+          setValue("complemento", address[0].complemento);
+          setValue("cidade", address[0].cidade);
+          setValue("estado", address[0].estado);
+          setValue("numero", address[0].numero);
+          setHabilitar(true)
+          setDisplayValue("block")
+        return address;
+      }else{
+        setDisplayValue("none")
+        setHabilitar(false)
+      }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    getAddress()
+  }, []);
+
+  const handleHabilitar=()=>{
+    setHabilitar(!habilitar)
+  }
   return (
     <section className={styles.container + " " + styles.forms}>
       <div className={styles.form + " " + styles.login}>
@@ -66,15 +103,16 @@ export default function RegisterAdress() {
 
           <form onSubmit={handleSubmit(onSubmit)} className={styles.formClass}>
             <div className={styles.field + " " + styles.input_field}>
-              <input
+              <input disabled={habilitar}
                 className={
-                  errors?.cep && styles.input_error + " " + styles.input
+                  errors?.cep && styles.input_error + " " + styles.input 
                 }
                 id="cep"
                 placeholder="CEP"
                 type="text"
                 {...register("cep", { required: true })}
                 onBlur={checkCEP}
+                
               />
               {errors?.cep?.type === "required" && (
                 <span className={styles.error_message}>
@@ -85,7 +123,7 @@ export default function RegisterAdress() {
             </div>
 
             <div className={styles.field + " " + styles.input_field}>
-              <input
+              <input disabled={habilitar}
                 className={
                   errors?.logradouro && styles.input_error + " " + styles.input
                 }
@@ -103,7 +141,7 @@ export default function RegisterAdress() {
 
             <div className={styles.group_number_neighborhood}>
               <div className={styles.field + " " + styles.input_field}>
-                <input
+                <input disabled={habilitar}
                   className={
                     errors?.numero && styles.input_error + " " + styles.input
                   }
@@ -120,7 +158,7 @@ export default function RegisterAdress() {
               </div>
 
               <div className={styles.field + " " + styles.input_field}>
-                <input
+                <input disabled={habilitar}
                   className={
                     errors?.bairro && styles.input_error + " " + styles.input
                   }
@@ -138,7 +176,7 @@ export default function RegisterAdress() {
             </div>
 
             <div className={styles.field + " " + styles.input_field}>
-              <input
+              <input disabled={habilitar}
                 id="complemento"
                 placeholder="Complemento"
                 className={styles.input}
@@ -149,7 +187,7 @@ export default function RegisterAdress() {
 
             <div className={styles.group_city_uf}>
               <div className={styles.field + " " + styles.input_field}>
-                <input
+                <input disabled={habilitar}
                   className={
                     errors?.cidade && styles.input_error + " " + styles.input
                   }
@@ -166,7 +204,7 @@ export default function RegisterAdress() {
               </div>
 
               <div className={styles.field + " " + styles.input_field}>
-                <input
+                <input disabled={habilitar}
                   className={
                     errors?.estado && styles.input_error + " " + styles.input
                   }
@@ -183,10 +221,13 @@ export default function RegisterAdress() {
               </div>
             </div>
 
-            <div className={styles.field + " " + styles.button_field}>
-              <button type="submit">CADASTRAR</button>
+            <div className={styles.field + " " + styles.button_field}> 
+              <button type="submit" disabled={habilitar}>CADASTRAR</button>
             </div>
           </form>
+            <div className={styles.field + " " + styles.button_field}> 
+              <button disabled={habilitar} style={{ display: displayValue }} onClick={handleHabilitar}>EDITAR</button>
+            </div>
         </div>
       </div>
     </section>

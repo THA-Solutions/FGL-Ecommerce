@@ -8,7 +8,7 @@ import Image from "next/image";
 import UInumber from "@/UI/UInumber";
 
 export default function ItemCart({ cart, updateQuantity, removeFromCart }) {
-  const [itemCart, setItemCart] = useState([]);
+  const [itemCart, setItemCart] = useState(cart);
 
   useEffect(() => {
     setItemCart(cart);

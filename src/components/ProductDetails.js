@@ -7,18 +7,15 @@ export default function ProductDetails(props) {
   const handleImageClick = (index) => {
     setSelectedImage(index);
   };
+const produto=props.produto
+const images = [
+  `/${produto.marca}/${props.produto.modelo}.png`,
+];
 
-  const images = [
-    //thumbnails
-    "https://source.unsplash.com/random/500x500/?night",
-    "https://source.unsplash.com/random/500x500/?animal",
-    "https://source.unsplash.com/random/500x500/?space",
-    "https://source.unsplash.com/random/500x500/?pokemon",
-    "https://source.unsplash.com/random/500x500/?naruto",
-    "https://source.unsplash.com/random/500x500/?crazy",
-  ];
 
+  
   return (
+    console.log(props,"teste"),
     <>
       <section className={styles.section}>
         <div className={styles.image_container}>
@@ -47,8 +44,8 @@ export default function ProductDetails(props) {
 
         <div className={styles.checkout_container}>
           <div className={styles.product_title}>
-            <h1>{props.produto.titulo_produto}</h1>
-            <h3>Marca: {props.produto.marca_produto}</h3>
+            <h1>{props.produto.titulo}</h1>
+            <h3>Marca: {props.marca}</h3>
           </div>
           <div className={styles.product_price}>
             <h2>R$ {props.produto.preco}</h2>
