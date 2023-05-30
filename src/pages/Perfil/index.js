@@ -2,29 +2,158 @@ import styles from "../../styles/Perfil.module.css";
 import Image from "next/image";
 import perfilImagemAlternative from "../../../public/fgl_quadrado.png";
 import { getSession, signOut, useSession } from "next-auth/react";
+import { useState } from "react";
 
 export default function Perfil() {
   const { data: session } = useSession();
+  const [updateInfo, setUpdateInfo] = useState(true);
   console.log(session);
 
   return (
     <div className={styles.container}>
-      <h1>Perfil</h1>
+      {/* Image Container */}
+      <div className={styles.image_container}>
+        <div className={styles.user_info}>
+          <Image
+            className={styles.image}
+            width={100}
+            height={100}
+            src={session?.user?.image || perfilImagemAlternative}
+            alt="Imagem de perfil"
+          />
+          <div className={styles.user_nameEmail}>
+            <h2>{session?.user?.name}</h2>
+            <h3>{session?.user?.email}</h3>
+          </div>
+        </div>
+        <button onClick={() => signOut()}>SAIR</button>
+      </div>
 
-      <Image
-        className={styles.image}
-        width={100}
-        height={100}
-        src={session?.user?.image || perfilImagemAlternative}
-        alt="Imagem de perfil"
-      />
+      {/* Profile Container */}
+      <div className={styles.profile_container}>
+        <h1>Perfil</h1>
+        <form className={styles.formClass}>
+          <div className={styles.group_name}>
+            <div className={styles.field + " " + styles.input_field}>
+              <input
+                className={styles.input}
+                id="firstName"
+                placeholder={
+                  session?.user?.name.split(" ")[0] || "Primeiro nome"
+                }
+                type="text"
+                disabled={updateInfo}
+              />
+            </div>
+            <div className={styles.field + " " + styles.input_field}>
+              <input
+                className={styles.input}
+                id="lastName"
+                placeholder={
+                  session?.user?.name.split(" ")[1] +
+                    " " +
+                    session?.user?.name.split(" ")[2] || "Sobrenome"
+                }
+                type="text"
+                disabled={updateInfo}
+              />
+            </div>
+          </div>
+          <div className={styles.field + " " + styles.input_field}>
+            <input
+              className={styles.input}
+              id="email"
+              placeholder={session?.user?.email || "Email"}
+              type="text"
+              disabled={updateInfo}
+            />
+          </div>
+          <div className={styles.field + " " + styles.input_field}>
+            <input
+              className={styles.input}
+              id="phone"
+              placeholder={session?.user?.phone || "Telefone"}
+              type="text"
+              disabled={updateInfo}
+            />
+          </div>
+        </form>
+      </div>
 
-      <p>{session?.user?.name}</p>
-      <p>{session?.user?.email}</p>
-      <p>Endereço</p>
-      <p>Telefone</p>
+      {/* Address Container */}
+      <div className={styles.address_container}>
+        <h1>Endereço</h1>
+        <form className={styles.formClass}>
+          <div className={styles.field + " " + styles.input_field}>
+            <input
+              className={styles.input}
+              id="cep"
+              placeholder={"CEP"}
+              type="text"
+              disabled={updateInfo}
+            />
+          </div>
+          <div className={styles.field + " " + styles.input_field}>
+            <input
+              className={styles.input}
+              id="logradouro"
+              placeholder={"Logradouro"}
+              type="text"
+              disabled={updateInfo}
+            />
+          </div>
+          <div className={styles.group_number_neighborhood}>
+            <div className={styles.field + " " + styles.input_field}>
+              <input
+                className={styles.input}
+                id="numero"
+                placeholder={"Número"}
+                type="number"
+                disabled={updateInfo}
+              />
+            </div>
+            <div className={styles.field + " " + styles.input_field}>
+              <input
+                className={styles.input}
+                id="bairro"
+                placeholder={"Bairro"}
+                type="text"
+                disabled={updateInfo}
+              />
+            </div>
+          </div>
+          <div className={styles.field + " " + styles.input_field}>
+            <input
+              id="complemento"
+              placeholder="Complemento"
+              className={styles.input}
+              type="text"
+              disabled={updateInfo}
+            />
+          </div>
+          <div className={styles.group_city_uf}>
+            <div className={styles.field + " " + styles.input_field}>
+              <input
+                className={styles.input}
+                id="cidade"
+                placeholder="Cidade"
+                type="text"
+                disabled={updateInfo}
+              />
+            </div>
 
-      <button onClick={() => signOut()}>Logout</button>
+            <div className={styles.field + " " + styles.input_field}>
+              <input
+                className={styles.input}
+                id="estado"
+                placeholder="Estado"
+                type="text"
+                disabled={updateInfo}
+              />
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
