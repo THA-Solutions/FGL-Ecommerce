@@ -9,15 +9,11 @@ export default function ProductDetails(props) {
   };
 
   const images = [
-    //thumbnails
-    "https://source.unsplash.com/random/500x500/?night",
     "https://source.unsplash.com/random/500x500/?animal",
-    "https://source.unsplash.com/random/500x500/?space",
-    "https://source.unsplash.com/random/500x500/?pokemon",
-    "https://source.unsplash.com/random/500x500/?naruto",
-    "https://source.unsplash.com/random/500x500/?crazy",
   ];
 
+
+  
   return (
     <>
       <section className={styles.section}>

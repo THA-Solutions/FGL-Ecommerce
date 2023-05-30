@@ -22,7 +22,19 @@ export default function Products() {
   const [shoppingCart, setShoppingCart] = useState([]);
   const [currentSession, setSession] = useState({ email: null });
   const [showPopUp, setShowPopUp] = useState(false);
+  const [imagePaths, setImagePaths] = useState([]);
 
+  function substituirCaracteresEspeciais(texto) {
+    const caracteresEspeciais = /[!@#$%&*()+=[\]{}|\\/<>,.?:;]/g;
+    return texto.replace(caracteresEspeciais, '-');
+  }
+
+  const handleImagePaths = (product) => {
+    const paths = [];
+    const path = `./public/${substituirCaracteresEspeciais(product.marca)}/${substituirCaracteresEspeciais(product.modelo)}/`;
+    setImagePaths(paths);
+  }
+  
   useEffect(() => {
     async function fetchData() {
       try {
@@ -35,6 +47,7 @@ export default function Products() {
             titulo: product.titulo,
             preco: product.preco,
             marca: product.marca,
+            modelo: product.modelo,
             potencia_modulo: product.potencia_modulo,
             potencia_saida: product.potencia_saida,
             quantidade_mppt: product.quantidade_mppt,
@@ -42,12 +55,17 @@ export default function Products() {
           };
         });
         setProdutosNoBancoDeDados(listaProdutosTratada);
+        console.log("listaProdutosTratada: ", listaProdutosTratada);
       } catch (error) {
         console.error("Erro ao carregar a pagina de produtos", error);
       }
     }
     fetchData();
   }, [session]);
+
+
+
+
 
   const handleAddToCart = async (id) => {
     if (session) {
