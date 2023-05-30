@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600");
+
 .article {
   display: flex;
   margin-bottom: 2em;
@@ -23,6 +25,7 @@
   font-weight: 600;
   margin-bottom: 1.5rem;
   position: static;
+  color: #333;
 }
 
 .shop_content {
@@ -46,12 +49,13 @@
 }
 
 .product_box:hover {
-  border: 1px solid black;
-  color: #ec4f22;
+  border: 1px solid #333;
   transition: 0.3s;
   .price {
     font-size: 1.5rem;
+    font-weight: 600;
     transition: 0.3s;
+    color: #ec4f22;
   }
 }
 
@@ -68,17 +72,19 @@
 }
 
 .price {
+  color: #333;
   font-weight: 500;
   font-size: 1.2rem;
   margin-bottom: 2rem;
   transition: 0.4s;
+  font-family: "JetBrains Mono", monospace;
 }
 
 .add_cart {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: black;
+  background: #333;
   color: #fff;
   padding: 10px;
   cursor: pointer;

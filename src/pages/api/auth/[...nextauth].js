@@ -2,8 +2,12 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import db from "../../../lib/db";
 
 export default NextAuth({
+  adapter: PrismaAdapter(db),
+
   providers: [
     CredentialsProvider({
       name: "credentials",
