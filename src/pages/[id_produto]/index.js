@@ -12,7 +12,16 @@ export async function getServerSideProps(context) {
         id: id,
       },
     }
-  );
+  ).then((response) => {
+
+    return {
+    id: response.data.id_produto,
+    titulo: response.data.titulo_produto,
+    preco: response.data.preco,
+    marca: response.data.marca_produto,
+    modelo: response.data.modelo,
+    descricao: response.data.descricao,
+  }});
   const comments = await axios.get(
     "http://localhost:3000/api/comments/getComments",
     {
@@ -31,7 +40,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      produto: productData.data,
+      produto: productData,
       comment: comment,
       id: id,
     },

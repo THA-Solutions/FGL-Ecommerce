@@ -2,17 +2,18 @@ import styles from "../styles/Products.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-
 import CarouselComponent from "./Carousel";
 import UInumber from "@/UI/UInumber";
 import Filters from "./Filters";
 import PopUp from "./PopUp";
-
 import { useContext, useState, useEffect } from "react";
 import { BsCartFill } from "react-icons/bs";
 import { useSession, getSession } from "next-auth/react";
 import { SearchContext } from "../context/SearchContext";
 import { FilterContext } from "@/context/FilterContext";
+import imagem from "../../public/growatt/57566-9.png";
+//import fs from 'fs';
+//import path from 'path';
 
 export default function Products() {
   const { data: session, status } = useSession();
@@ -24,16 +25,12 @@ export default function Products() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [imagePaths, setImagePaths] = useState([]);
 
-  function substituirCaracteresEspeciais(texto) {
+  function subCaract(texto) {
     const caracteresEspeciais = /[!@#$%&*()+=[\]{}|\\/<>,.?:;]/g;
     return texto.replace(caracteresEspeciais, '-');
   }
 
-  const handleImagePaths = (product) => {
-    const paths = [];
-    const path = `./public/${substituirCaracteresEspeciais(product.marca)}/${substituirCaracteresEspeciais(product.modelo)}/`;
-    setImagePaths(paths);
-  }
+
   
   useEffect(() => {
     async function fetchData() {
@@ -52,8 +49,10 @@ export default function Products() {
             potencia_saida: product.potencia_saida,
             quantidade_mppt: product.quantidade_mppt,
             tensao_saida: product.tensao_saida,
+            img: "handleImagePaths()",
           };
         });
+        
         setProdutosNoBancoDeDados(listaProdutosTratada);
         console.log("listaProdutosTratada: ", listaProdutosTratada);
       } catch (error) {
@@ -107,6 +106,7 @@ export default function Products() {
       alert("Faça login para adicionar ao carrinho");
     }
   };
+
   async function addCartItem(item) {
     const addCartItem = await axios.post(
       "http://localhost:3000/api/cart/addItem",
@@ -118,6 +118,7 @@ export default function Products() {
     );
     return addCartItem.data;
   }
+
   const productsList = produtosNoBancoDeDados.filter((product) =>
     product.titulo.toLocaleLowerCase().includes(search.toLowerCase())
   );
@@ -163,7 +164,7 @@ export default function Products() {
                   <Image
                     width={220}
                     height={380}
-                    src="https://source.unsplash.com/random/220x380/?solar"
+                    src={`/${product.marca}/${subCaract(product.modelo)}.png`}
                     alt=""
                     className={styles.product_img + " " + styles.img}
                   />
