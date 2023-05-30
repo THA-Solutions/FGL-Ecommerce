@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
 import UInumber from "@/UI/UInumber";
-import Image from "next/image";
 
+import logo from "../../../../public/growatt/57566-9.png";
+import Image from "next/image";
 export default async function sendEmail(req, res) {
   try {
     var transport = nodemailer.createTransport({
@@ -13,7 +14,7 @@ export default async function sendEmail(req, res) {
       },
     });
     const { itemCart, total, session } = req.body;
-    console.log(session);
+
     const items = itemCart.map((item) => {
       return `
         <div 
@@ -26,18 +27,18 @@ export default async function sendEmail(req, res) {
             align-items: center;
             margin-bottom: 1em;"
         >
-          <img src="${item.img}" alt="imagem_produto" />
+        <Image src=${`/growatt/57566-9.png`} alt="Imagem do Produto" />
           <h4>${item.titulo_produto}</h4>
           <h4>Quantidade: ${item.quantidade}</h4>
           <h4>Total do produto: ${item.total}</h4>
 
-        </div>`;
+        </div>`
     });
 
     const emailTemplate = `
     <div style="padding: 1em; display: block;">
       <div style="justify-content: space-between;">
-        <img src="data:image/png;base64, ${imageContent}" alt="logo" />
+      <Image src=${logo} alt="logo" />
         <h1 style="text-align: center; font-size: 30px;">Novo Pedido Realizado</h1>
       </div>
       
@@ -84,19 +85,20 @@ export default async function sendEmail(req, res) {
 
     const message = {
       from: "tecnologia@thasolutions.com.br",
-      to: "tecnologia@thasolutions.com.br",
+      to: "geancarlostha@gmail.com",
       subject: "Novo pedido - FGL Distribuidora",
       html: emailTemplate,
     };
 
     try {
       const sentEmail = transport.sendMail(message);
+      console.log(sentEmail);
     } catch (error) {
       console.error(error);
     }
 
     res.json({ erro: false, mensagem: "Email enviado com sucesso" });
   } catch (error) {
-    res.json({ erro: true, mensagem: "Erro - Email não enviado" });
+    console.error("Erro no envio do Email :",error);
   }
 }

@@ -34,13 +34,13 @@ export default function RegisterAdress() {
         }),
       });
     } catch (error) {
-      console.log("erro: ", error);
+      console.error("Erro no cadastro do usuario: ", error);
     }
   };
 
   const checkCEP = (event) => {
     const cep = event.target.value.replace(/\D/g, "");
-    console.log(cep);
+
     try {
       if (cep === "") {
         return;

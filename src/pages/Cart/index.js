@@ -22,6 +22,7 @@ export default function Cart() {
         const produto = await axios.get(`/api/cart/getCart`, {
           params: { email: session.user.email },
         });
+        
         setItemCart(produto.data.carts);
         setTotal(produto.data.total);
         setRefreshCart(false);
@@ -154,14 +155,11 @@ export default function Cart() {
               </h4>
             </div>
           </div>
-          <Link
-            href="/Register/address"
-            onClick={() => {
+
+            <button onClick={() => {
               sendEmail();
-            }}
-          >
-            <button> FINALIZAR COMPRA </button>
-          </Link>
+            }}> FINALIZAR COMPRA </button>
+         
         </div>
       </div>
     </>

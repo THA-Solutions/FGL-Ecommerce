@@ -14,6 +14,12 @@ export default function ItemCart({ cart, updateQuantity, removeFromCart }) {
     setItemCart(cart);
   }, [cart]);
 
+  function subCaract(texto) {
+    const caracteresEspeciais = /[!@#$%&*()+=[\]{}|\\/<>,.?:;]/g;
+    return texto.replace(caracteresEspeciais, '-');
+  }
+
+
   return (
     <div>
       {itemCart.map((item) => (
@@ -21,7 +27,7 @@ export default function ItemCart({ cart, updateQuantity, removeFromCart }) {
           <Image
             width={100}
             height={100}
-            src="https://source.unsplash.com/random/250x400/?night"
+            src={`/${item.produto.marca_produto}/${subCaract(item.produto.modelo)}.${"png"||"jpg"||"jpeg"||"gif"||"svg"||"webp"}`}
             /*{item.img}*/
             alt=""
             className={styles.product_img}

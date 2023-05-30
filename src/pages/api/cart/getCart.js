@@ -35,6 +35,14 @@ export default async function getCartItems(req, res) {
       orderBy: {
         id_itempedido: "asc",
       },
+      include: {
+        produto: {
+          select: {
+            modelo: true,
+            marca_produto: true,
+          }
+        }
+      }
     }); //Se existir, retorna os itens do carrinho de acordo com o id_pedido
 
     const total = carts.reduce((total, item) => {

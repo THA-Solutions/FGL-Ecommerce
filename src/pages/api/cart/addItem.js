@@ -36,7 +36,6 @@ export default async function handlerCartItems(req, res) {
             });
             if (productInCart) {
               let quantidade = productInCart.quantidade++;
-              console.log(typeof quantidade, typeof item.preco);
               const produto_updtd = await db.itempedido.update({
                 where: { id_itempedido: productInCart.id_itempedido },
                 data: {

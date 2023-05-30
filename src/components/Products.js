@@ -49,7 +49,7 @@ export default function Products() {
             potencia_saida: product.potencia_saida,
             quantidade_mppt: product.quantidade_mppt,
             tensao_saida: product.tensao_saida,
-            img: "handleImagePaths()",
+            
           };
         });
         

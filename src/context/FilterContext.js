@@ -22,18 +22,16 @@ export const FilterProvider = ({ children }) => {
         let value;
         if (event.target.value !== null && filterParam !== null) {
           value = event.target.value;
-          console.log(value, item[filterParam], "a");
           return item[filterParam] === value;
         }
       });
       setDadosFiltrados([...dadosFiltrados, ...campoFiltrado]);
-      console.log(campoFiltrado, "campo filtrado");
+
     } else {
       const campoFiltrado = dadosFiltrados.filter((item) => {
         let value;
         if (event.target.value !== null) {
           value = event.target.value;
-          console.log(value, item[filterParam], "bb");
           return item[filterParam] !== value;
         }
       });

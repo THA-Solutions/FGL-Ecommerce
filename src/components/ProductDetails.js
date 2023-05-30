@@ -7,15 +7,19 @@ export default function ProductDetails(props) {
   const handleImageClick = (index) => {
     setSelectedImage(index);
   };
-const produto=props.produto
+
+function subCaract(texto) {
+  const caracteresEspeciais = /[!@#$%&*()+=[\]{}|\\/<>,.?:;]/g;
+  return texto.replace(caracteresEspeciais, '-');
+}
+
 const images = [
-  `/${produto.marca}/${props.produto.modelo}.png`,
+  `/${props.produto.marca}/${subCaract(props.produto.modelo)}.${"png"||"jpg"||"jpeg"||"gif"||"svg"||"webp"}`,
 ];
 
 
   
   return (
-    console.log(props,"teste"),
     <>
       <section className={styles.section}>
         <div className={styles.image_container}>

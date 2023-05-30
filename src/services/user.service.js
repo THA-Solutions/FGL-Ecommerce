@@ -71,13 +71,11 @@ export async function checkAddress(param){
 export async function singInResquest(body) {
   try {
     const userData = body;
-    console.log(userData, "QLQ COISA 2");
     const user = await db.user.findUnique({
       where: {
         email: userData.email,
       },
     });
-    console.log(user, "QLQ COISA");
     const validate = bcrypt.compareSync(userData.password, user.password);
     if (validate) {
       return {
@@ -87,7 +85,7 @@ export async function singInResquest(body) {
         id: user.id,
       };
     } else {
-      console.log("Senha incorreta!");
+      console.error("Senha incorreta!");
     }
   } catch (error) {
     console.error(error, "Falha ao logar");

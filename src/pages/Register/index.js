@@ -45,7 +45,7 @@ export default function Register() {
 
       router.push("/Login");
     } catch (error) {
-      console.log("Erro da tela de cadastro: ", error);
+      console.error("Erro no cadastro: ", error);
       setError(error.message);
     }
   };

@@ -20,7 +20,6 @@ export default function Login() {
         email: data.email,
         password: data.password,
       });
-      console.log(res);
     } catch (error) {
       setError(error.message);
     }
@@ -132,7 +131,6 @@ export const getServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
 
   if (session) {
-    console.log("mandou para o perfil");
     return {
       redirect: {
         destination: "/Perfil",
