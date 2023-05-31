@@ -82,24 +82,24 @@
 //   //   },
 //   // },
 
-//   //   callbacks: {
+// //   callbacks: {
 
-//   //     jwt: ({ token, user }) => {
-//   //       // first time jwt callback is run, user object is available
-//   //       if (user) {
-//   //         token.id = user.id;
-//   //       }
+// //     jwt: ({ token, user }) => {
+// //       // first time jwt callback is run, user object is available
+// //       if (user) {
+// //         token.id = user.id;
+// //       }
 
-//   //       return token;
-//   //     },
+// //       return token;
+// //     },
 
-//   session: ({ session, user }) => ({
-//     // ...session,
-//     // user: {
-//     //   ...session.user,
-//     //   id: user.id,
-//     //   email: user.email,
-//     // },
+// session: ({ session, user }) => ({
+//   // ...session,
+//   // user: {
+//   //   ...session.user,
+//   //   id: user.id,
+//   //   email: user.email,
+//   // },
 
 //     strategy: "jwt",
 //   }),

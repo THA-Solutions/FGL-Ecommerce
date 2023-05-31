@@ -162,6 +162,7 @@ export default function Products() {
                     alt=""
                     className={styles.product_img + " " + styles.img}
                   />
+                  <h3 className={styles.product_brand}>{product.marca}</h3>
                   <h2 className={styles.product_title}>{product.titulo}</h2>
                 </Link>
 

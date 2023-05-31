@@ -30,41 +30,51 @@ export async function register(body) {
 export async function registerAddress(body) {
   try {
     const addressData = JSON.parse(body);
-    const user = await db.user.findUnique({where:{email:addressData.userEmail}})
-  const address= await db.endereco.findMany({where:{	userId:user.id}})
-   if (address) {
-    return address
-   }else{
-    const createdAddress = await db.endereco.create({
-      data: {
-        cep: Number(addressData.cep),
-        logradouro: addressData.logradouro,
-        numero: Number(addressData.numero),
-        bairro: addressData.bairro,
-        complemento: addressData.complemento,
-        cidade: addressData.cidade,
-        estado: addressData.estado,
-        userId: user.id,
-      },
+    console.log(addressData);
+
+    const user = await db.user.findUnique({
+      where: { email: addressData.userEmail },
     });
-    return createdAddress;
-   }
+
+    const address = await db.endereco.findMany({ where: { userId: user.id } });
+
+    if (!address) {
+      console.log("adress", address);
+      return address;
+    } else {
+      const createdAddress = await db.endereco.create({
+        data: {
+          cep: Number(addressData.cep),
+          logradouro: addressData.logradouro,
+          numero: Number(addressData.numero),
+          bairro: addressData.bairro,
+          complemento: addressData.complemento,
+          cidade: addressData.cidade,
+          estado: addressData.estado,
+          userId: user.id,
+        },
+      });
+      console.log("createdAddress", createdAddress);
+      return createdAddress;
+    }
   } catch (error) {
-    console.error("Erro na criacao do endereço", error)
+    console.error("Erro na criacao do endereço", error);
   }
 }
 
-export async function checkAddress(param){
-  try{
-  const user = await db.user.findUnique({where:{email:param}})
-  if(user){
-  const address= await db.endereco.findMany({where:{	userId:user.id}})
-  return address
-  }else{
-    return
-  }
-  }catch{
-    console.error("Erro ao buscar endereço", error)
+export async function checkAddress(param) {
+  try {
+    const user = await db.user.findUnique({ where: { email: param } });
+    if (user) {
+      const address = await db.endereco.findMany({
+        where: { userId: user.id },
+      });
+      return address;
+    } else {
+      return null;
+    }
+  } catch {
+    console.error("Erro ao buscar endereço", error);
   }
 }
 

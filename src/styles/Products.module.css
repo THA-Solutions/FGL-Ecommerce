@@ -61,6 +61,19 @@
 
 .product_img {
   margin-bottom: 1rem;
+  width: 100%;
+  height: 270px;
+  object-fit: contain;
+  border-bottom: 1px solid #cacaca;
+}
+
+.product_brand {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #ec4f22;
+  text-transform: uppercase;
+  font-family: "JetBrains Mono", monospace;
 }
 
 .product_title {
@@ -91,7 +104,8 @@
 }
 
 .add_cart:hover {
-  background: hsl(249, 32%, 17%);
+  background-color: #ec4f22;
+  transition: 0.3s;
 }
 
 /* Responsividade */

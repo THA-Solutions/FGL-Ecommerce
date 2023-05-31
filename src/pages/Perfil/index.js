@@ -4,18 +4,31 @@ import perfilImagemAlternative from "../../../public/fgl_quadrado.png";
 import { getSession, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
 export default function Perfil() {
   const { data: session } = useSession();
+  const [address, setAddress] = useState([]);
+
   const [updateInfo, setUpdateInfo] = useState(true);
 
   useEffect(() => {
-  async function getCartItems() {
-    const produto = await axios.get(`/api/cart/getCart`, {
-    params: { email: session.user.email },
-  });}
-  getCartItems();
-}, []);
-  
+    async function getCartItems() {
+      await axios.get(`/api/cart/getCart`, {
+        params: { email: session.user.email },
+      });
+    }
+    getCartItems();
+
+    async function getAddress() {
+      const address = await axios.get(`/api/user/checkAddress`, {
+        params: { email: session.user.email },
+      });
+      setAddress(address.data);
+      return address;
+    }
+    getAddress();
+  }, [session.user.email]);
+
   return (
     <div className={styles.container}>
       {/* Image Container */}
@@ -95,7 +108,7 @@ export default function Perfil() {
             <input
               className={styles.input}
               id="cep"
-              placeholder={"CEP"}
+              placeholder={address[0]?.cep || "CEP"}
               type="text"
               disabled={updateInfo}
             />
@@ -104,7 +117,7 @@ export default function Perfil() {
             <input
               className={styles.input}
               id="logradouro"
-              placeholder={"Logradouro"}
+              placeholder={address[0]?.logradouro || "Logradouro"}
               type="text"
               disabled={updateInfo}
             />
@@ -114,7 +127,7 @@ export default function Perfil() {
               <input
                 className={styles.input}
                 id="numero"
-                placeholder={"Número"}
+                placeholder={address[0]?.numero || "Número"}
                 type="number"
                 disabled={updateInfo}
               />
@@ -123,7 +136,7 @@ export default function Perfil() {
               <input
                 className={styles.input}
                 id="bairro"
-                placeholder={"Bairro"}
+                placeholder={address[0]?.bairro || "Bairro"}
                 type="text"
                 disabled={updateInfo}
               />
@@ -132,7 +145,7 @@ export default function Perfil() {
           <div className={styles.field + " " + styles.input_field}>
             <input
               id="complemento"
-              placeholder="Complemento"
+              placeholder={address[0]?.complemento || "Complemento"}
               className={styles.input}
               type="text"
               disabled={updateInfo}
@@ -143,7 +156,7 @@ export default function Perfil() {
               <input
                 className={styles.input}
                 id="cidade"
-                placeholder="Cidade"
+                placeholder={address[0]?.cidade || "Cidade"}
                 type="text"
                 disabled={updateInfo}
               />
@@ -153,7 +166,7 @@ export default function Perfil() {
               <input
                 className={styles.input}
                 id="estado"
-                placeholder="Estado"
+                placeholder={address[0]?.estado || "Estado"}
                 type="text"
                 disabled={updateInfo}
               />

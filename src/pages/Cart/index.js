@@ -15,6 +15,7 @@ export default function Cart() {
   const [total, setTotal] = useState(0);
   const [refreshCart, setRefreshCart] = useState(false);
   const { data: session } = useSession();
+  const [route, setRoute] = useState("");
 
   useEffect(() => {
     try {
@@ -28,6 +29,21 @@ export default function Cart() {
         return produto;
       }
       getCartItems();
+
+      async function checkAddress() {
+        const address = await axios.get(`/api/user/checkAddress`, {
+          params: { email: session.user.email },
+        });
+
+        console.log("address", address.data);
+
+        if (address.data.lenght > 0) {
+          setRoute("/Checkout");
+        } else {
+          setRoute("/Register/address");
+        }
+      }
+      checkAddress();
     } catch (error) {
       console.error(error);
     }
@@ -154,9 +170,7 @@ export default function Cart() {
               </h4>
             </div>
           </div>
-          <Link
-            href="/Register/address"
-          >
+          <Link href={route}>
             <button> FINALIZAR COMPRA </button>
           </Link>
         </div>

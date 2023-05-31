@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import bcrypt from "bcryptjs";
 import db from "../../../lib/db";
 
 export default NextAuth({
@@ -12,17 +13,24 @@ export default NextAuth({
     CredentialsProvider({
       name: "credentials",
       credentials: {},
-      authorize: (credentials) => {
-        if (
-          credentials.email === "admin@admin.com" &&
-          credentials.password === "admin"
-        ) {
+      authorize: async (credentials) => {
+        const { email } = credentials;
+
+        // Verificar as credenciais no banco de dados
+        const user = await db.user.findFirst({
+          where: {
+            email: email,
+          },
+        });
+
+        if (bcrypt.compareSync(credentials.password, user.password) === true) {
+          // Se as credenciais estiverem corretas, retorne o usuário
           return {
-            id: 1,
-            image: "https://source.unsplash.com/random/200x200/?face",
-            name: "Admin Forever Love",
-            email: "adm@teste.com",
-            phone: "(44) 99999-9999",
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            // Outras informações do usuário
           };
         }
 
@@ -49,12 +57,19 @@ export default NextAuth({
 
       return token;
     },
-    session: ({ session, token }) => {
-      if (token) {
+
+    session: ({ session, token, user }) => {
+      if (token && token.id) {
         session.id = token.id;
       }
 
-      return session;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          phone: user?.phone ?? "Número não cadastrado",
+        },
+      };
     },
   },
 
