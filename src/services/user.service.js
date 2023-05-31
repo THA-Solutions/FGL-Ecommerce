@@ -31,8 +31,10 @@ export async function registerAddress(body) {
   try {
     const addressData = JSON.parse(body);
     const user = await db.user.findUnique({where:{email:addressData.userEmail}})
-  const address= await db.endereco.findMany({where:{	userId:user.id}})
+  const [address]= await db.endereco.findMany({where:{	userId:user.id,cep:Number(addressData.cep), numero:Number(addressData.numero), bairro:addressData.bairro, complemento:addressData.complemento}})
+
    if (address) {
+
     return address
    }else{
     const createdAddress = await db.endereco.create({
@@ -47,6 +49,7 @@ export async function registerAddress(body) {
         userId: user.id,
       },
     });
+
     return createdAddress;
    }
   } catch (error) {
@@ -83,6 +86,7 @@ export async function singInResquest(body) {
         email: user.email,
         phone: user.phone,
         id: user.id,
+        authorized: true,
       };
     } else {
       console.error("Senha incorreta!");

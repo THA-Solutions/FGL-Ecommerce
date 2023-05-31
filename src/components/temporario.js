@@ -116,3 +116,42 @@
 //     //error: "/pages/Error/login",
 //   },
 // });
+
+
+//CredentialsProvider({
+//    name: "credentials",
+//    credentials: {},
+//    authorize: (credentials) => {
+//      if (
+//        credentials.email === "admin@admin.com" &&
+//        credentials.password === "admin"
+//      ) {
+//        return {
+//          id: 1,
+//          image: "https://source.unsplash.com/random/200x200/?face",
+//          name: "Admin Forever Love",
+//          email: "adm@teste.com",
+//          phone: "(44) 99999-9999",
+//        };
+//      }
+//
+//      return null;
+//    },
+//  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//

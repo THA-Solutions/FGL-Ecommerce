@@ -8,13 +8,13 @@ export default function Perfil() {
   const { data: session } = useSession();
   const [updateInfo, setUpdateInfo] = useState(true);
 
-  useEffect(() => {
-  async function getCartItems() {
-    const produto = await axios.get(`/api/cart/getCart`, {
-    params: { email: session.user.email },
-  });}
-  getCartItems();
-}, []);
+//  useEffect(() => {
+//  async function getCartItems() {
+//    const produto = await axios.get(`/api/cart/getCart`, {
+//    params: { email: session.user.email },
+//  });}
+//  getCartItems();
+//}, []);
   
   return (
     <div className={styles.container}>
