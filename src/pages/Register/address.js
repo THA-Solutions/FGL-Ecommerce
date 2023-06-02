@@ -1,11 +1,13 @@
 import styles from "../../styles/Login.module.css";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function RegisterAdress() {
   const { data: session } = useSession();
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const {
     register,
@@ -17,7 +19,7 @@ export default function RegisterAdress() {
 
   const onSubmit = async (body) => {
     try {
-      await fetch("/api/user/registerAddress", {
+      const address = await fetch("/api/user/registerAddress", {
         method: "POST",
         body: JSON.stringify({
           userEmail: session.user.email,
@@ -30,7 +32,8 @@ export default function RegisterAdress() {
           estado: body.estado,
         }),
       });
-      console.log("cadastrado com sucesso");
+      console.log(address, "cadastrado com sucesso");
+      router.push("/Checkout");
     } catch (error) {
       console.error("Erro no cadastro do usuario: ", error);
     }

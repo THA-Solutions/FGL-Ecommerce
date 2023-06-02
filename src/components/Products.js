@@ -7,7 +7,7 @@ import UInumber from "@/UI/UInumber";
 import Filters from "./Filters";
 import PopUp from "./PopUp";
 import { useContext, useState, useEffect } from "react";
-import { BsCartFill } from "react-icons/bs";
+import { BsFillCartPlusFill } from "react-icons/bs";
 import { useSession, getSession } from "next-auth/react";
 import { SearchContext } from "../context/SearchContext";
 import { FilterContext } from "@/context/FilterContext";
@@ -177,7 +177,7 @@ export default function Products() {
                     setLoginPopUp(true);
                   }}
                 >
-                  <BsCartFill />
+                  <BsFillCartPlusFill />
                 </i>
               </div>
             ))}
@@ -187,7 +187,7 @@ export default function Products() {
       {session ? (
         <PopUp trigger={addCartPopUp} buttonVisible={false}>
           <h3>
-            Produto adicionado ao carrinho <BsCartFill />
+            Produto adicionado ao carrinho <BsFillCartPlusFill />
           </h3>
         </PopUp>
       ) : (
@@ -197,7 +197,7 @@ export default function Products() {
           buttonVisible={true}
           buttonText={"OK"}
         >
-          <h3>Faça LOGIN para adicionar produtos ao carrinho.</h3>
+          <h3>Faça LOGIN para adicionar produtos ao carrinho</h3>
         </PopUp>
       )}
     </>

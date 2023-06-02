@@ -30,7 +30,6 @@ export async function register(body) {
 export async function registerAddress(body) {
   try {
     const addressData = JSON.parse(body);
-    console.log(addressData);
 
     const user = await db.user.findUnique({
       where: { email: addressData.userEmail },
@@ -54,11 +53,53 @@ export async function registerAddress(body) {
           userId: user.id,
         },
       });
-      console.log("createdAddress", createdAddress);
+    
       return createdAddress;
     }
   } catch (error) {
     console.error("Erro na criacao do endereço", error);
+  }
+}
+
+export async function updateAddress(body) {
+  try {
+    const addressData = JSON.parse(body);
+    console.log("addressData", addressData);
+
+    const user = await db.user.findUnique({
+      where: {
+        email: addressData.userEmail,
+      },
+    });
+
+    console.log("user", user);
+
+    const address = await db.endereco.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    console.log("address", address);
+
+    const updatedAddress = await db.endereco.update({
+      where: {
+        id_endereco: address[0].id_endereco,
+      },
+      data: {
+        cep: Number(addressData.cep),
+        logradouro: addressData.logradouro,
+        numero: Number(addressData.numero),
+        bairro: addressData.bairro,
+        complemento: addressData.complemento,
+        cidade: addressData.cidade,
+        estado: addressData.estado,
+      },
+    });
+    console.log("updatedAddress", updatedAddress);
+    return updatedAddress;
+  } catch (error) {
+    console.error("Erro na atualização do endereço", error);
   }
 }
 

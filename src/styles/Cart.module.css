@@ -1,6 +1,7 @@
 .cart {
   padding: 1rem;
   display: flex;
+  color: #333;
 }
 
 /* Container Left */
@@ -19,7 +20,7 @@
 
 .link_product_list {
   text-decoration: none;
-  color: black;
+  color: #333;
   max-width: 100%;
   font-size: 1.5em;
   display: flex;
@@ -28,20 +29,21 @@
 }
 
 .link_product_list:hover {
-  color: rgb(53, 135, 211);
+  color: #ec4f22;
 }
 
 .button_remove_all {
   padding: 0.5rem 1rem;
-  border: solid 2px;
-  border-color: rgb(222, 74, 74);
-  background-color: #fff;
+  border: none;
+  background-color: rgb(222, 74, 74);
+  color: #fff;
   font-weight: 600;
   font-size: 15px;
   border-radius: 5px;
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -49,48 +51,75 @@
   background-color: rgb(255, 150, 150);
 }
 
+.empty_cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 53vh;
+  gap: 20px;
+  color: #cacaca;
+}
+
+.empty_cart svg {
+  width: 150px;
+  height: 150px;
+}
+
 .product_list_cart {
   display: block;
 }
 
 .calculate_freight {
-  background-color: rgba(53, 135, 211, 0.295);
+  border: solid 2px rgb(53, 135, 211);
   margin-top: 20px;
-  padding-bottom: 10px;
   border-radius: 5px;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .calculate_freight h3 {
-  padding: 0.5em;
   font-size: 25px;
 }
 
 .calculate_freight form {
-  padding: 0.5em;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
 }
 
 .calculate_freight form button {
-  margin-left: 1em;
   padding: 0.5rem 1rem;
-  color: rgb(53, 135, 211);
-  background-color: white;
   border: solid 1.5px;
-  font-weight: 600;
-  font-size: 16px;
   border-radius: 5px;
+  font-size: 16px;
+  background-color: rgb(53, 135, 211);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .calculate_freight form button:hover {
-  background-color: rgb(236, 79, 34);
+  background-color: #ec4f22;
 }
 
 .calculate_freight form input {
   padding: 0.5rem 1rem;
+  border: solid 1.5px #cacaca;
+  border-radius: 5px;
   font-size: 15px;
 }
 
 .calculate_freight_link {
-  padding: 1em;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.calculate_freight_link:hover {
+  text-decoration: underline;
+  color: #ec4f22;
 }
 
 /* Container Right */
@@ -100,10 +129,14 @@
 }
 
 .summary {
-  background-color: rgba(53, 135, 211, 0.295);
+  border: solid 2px rgb(39, 192, 39);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
   border-radius: 15px;
-  padding-top: 5%;
-  padding-bottom: 5%;
+  height: 67vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1em;
 }
 
 .summary h1 {
@@ -117,15 +150,7 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  border-bottom: 1px solid rgb(97, 93, 93);
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 10%;
-}
-
-.summary_shipping {
-  margin-top: 0%;
-  border-bottom: none;
+  border-bottom: 1px solid #cacaca;
 }
 
 .summary_total_term {
@@ -136,12 +161,12 @@
 .summary_shipping h4,
 .summary_total_term h4 {
   font-size: 15px;
-  color: rgb(97, 93, 93);
+  color: rgb(180, 180, 180);
 }
 
 .summary_total h3,
 .summary_total_term h3 {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .summary_shipping h3 {
@@ -151,15 +176,13 @@
 .container_right h5 {
   font-size: 15px;
   text-align: end;
-  margin-right: 5%;
-  color: rgb(97, 93, 93);
+  color: rgb(180, 180, 180);
 }
 
 .summary_total_pix {
-  background-color: rgb(175, 223, 175);
+  border: 2px solid rgb(175, 223, 175);
+  background-color: rgb(229, 241, 229);
   text-align: center;
-  width: 70%;
-  margin: 0 auto;
   padding: 1em;
   margin-top: 10%;
   border-radius: 10px;
@@ -171,7 +194,7 @@
 }
 
 .summary_total_pix h3 {
-  font-size: 32px;
+  font-size: 25px;
 }
 
 .container_right button {
@@ -191,7 +214,7 @@
   background-color: rgb(149, 226, 149);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1050px) {
   .summary h1 {
     font-size: 20px;
   }
@@ -204,21 +227,24 @@
 
   .summary_total h3,
   .summary_total_term h3 {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .summary_shipping h3 {
-    font-size: 18px;
+    font-size: 17px;
   }
-}
 
-@media (max-width: 1000px) {
   .summary_total_pix h3 {
-    font-size: 28px;
+    font-size: 25px;
+  }
+
+  .summary h5 {
+    margin-top: 5px;
+    font-size: 12px;
   }
 }
 
-@media (max-width: 902px) {
+@media (max-width: 940px) {
   .summary_total h3,
   .summary_total_term h3 {
     font-size: 18px;
@@ -233,7 +259,7 @@
   }
 }
 
-@media (max-width: 885px) {
+@media (max-width: 900px) {
   .cart {
     display: block;
   }
@@ -244,6 +270,11 @@
 
   .container_right {
     margin-top: 5%;
+  }
+
+  .summary {
+    height: 100%;
+    gap: 1em;
   }
 
   .summary h1 {
@@ -278,7 +309,7 @@
   }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 600px) {
   .summary h1 {
     font-size: 30px;
   }
@@ -311,7 +342,19 @@
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 500px) {
+  .calculate_freight form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+  }
+
+  .calculate_freight_link {
+    margin-left: 10px;
+  }
+}
+
+@media (max-width: 460px) {
   .summary h1 {
     font-size: 25px;
   }
@@ -342,29 +385,29 @@
   .summary_total_pix h3 {
     font-size: 30px;
   }
-}
 
-@media (max-width: 403px) {
   .button_remove_all {
-    width: 190px;
     font-weight: 500;
     font-size: 14px;
   }
+
+  .link_product_list {
+    font-size: 18px;
+  }
 }
 
-@media (max-width: 355px) {
-  .link_product_list h4 {
+@media (max-width: 390px) {
+  .link_product_list {
     font-size: 15px;
   }
+}
 
+@media (max-width: 370px) {
   .button_remove_all {
-    width: 130px;
     font-weight: 500;
     font-size: 11px;
   }
-}
 
-@media (max-width: 350px) {
   .calculate_freight input[type="text"] {
     width: 60%;
   }
@@ -376,12 +419,12 @@
   .summary_total h4,
   .summary_shipping h4,
   .summary_total_term h4 {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .summary_total h3,
   .summary_total_term h3 {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .summary_shipping h3 {
@@ -397,12 +440,20 @@
   }
 
   .summary_total_pix h3 {
-    font-size: 28px;
+    font-size: 25px;
+  }
+
+  .calculate_freight {
+    text-align: center;
+  }
+
+  .calculate_freight form {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 320px) {
-  .calculate_freight input[type="text"] {
-    width: 50%;
+  .link_product_list {
+    font-size: 13px;
   }
 }
