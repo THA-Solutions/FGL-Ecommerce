@@ -16,9 +16,8 @@ export default function ItemCart({ cart, updateQuantity, removeFromCart }) {
 
   function subCaract(texto) {
     const caracteresEspeciais = /[!@#$%&*()+=[\]{}|\\/<>,.?:;]/g;
-    return texto.replace(caracteresEspeciais, '-');
+    return texto.replace(caracteresEspeciais, "-");
   }
-
 
   return (
     <div>
@@ -27,15 +26,17 @@ export default function ItemCart({ cart, updateQuantity, removeFromCart }) {
           <Image
             width={100}
             height={100}
-            src={`/${item.produto.marca_produto}/${subCaract(item.produto.modelo)}.${"png"||"jpg"||"jpeg"||"gif"||"svg"||"webp"}`}
+            src={`/${item.produto.marca_produto}/${subCaract(
+              item.produto.modelo
+            )}.${"png" || "jpg" || "jpeg" || "gif" || "svg" || "webp"}`}
             /*{item.img}*/
             alt=""
             className={styles.product_img}
           />
           <h2 className={styles.product_title}>{item.titulo_produto}</h2>
           <div className={styles.product_quantity}>
-            <h4>Qntd.</h4>
-            <div className={styles.quantity_count}>
+            <h4>Quantidade</h4>
+            <div className={styles.quantity_buttons}>
               <button
                 onClick={() => {
                   updateQuantity.handleQuantity(

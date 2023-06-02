@@ -3,6 +3,7 @@ import UInumber from "@/UI/UInumber";
 
 import logo from "../../../../public/growatt/57566-9.png";
 import Image from "next/image";
+
 export default async function sendEmail(req, res) {
   try {
     var transport = nodemailer.createTransport({
@@ -13,7 +14,7 @@ export default async function sendEmail(req, res) {
         pass: process.env.USER_PASSWORD,
       },
     });
-    const { itemCart, total, session } = req.body;
+    const { itemCart, total, session, address } = req.body;
 
     const items = itemCart.map((item) => {
       return `
@@ -59,16 +60,19 @@ export default async function sendEmail(req, res) {
           <div style="font-size: 15px">
             <h4>Nome: ${session.user.name}</h4>
             <h4>Email:  ${session.user.email}</h4>
-            <h4>Telefone: ${123}</h4>
+            <h4>Telefone: ${session.user.phone}</h4>
           </div>
         </div>    
         <div style="width: 50%">
           <h3 style="font-size: 20px">Endereço</h3>
           <div style="font-size: 15px">
-            <h4>CEP : ${1}</h4>        
-            <h4>Estado : ${1}</h4>        
-            <h4>Cidade : ${1}</h4>        
-            <h4>Logradouro : ${1}</h4>        
+            <h4>CEP : ${address[0].cep}</h4>        
+            <h4>Logradouro : ${address[0].logradouro}</h4>        
+            <h4>Número : ${address[0].numero}</h4> 
+            <h4>Bairro : ${address[0].bairro}</h4> 
+            <h4>Complemento : ${address[0].complemento}</h4> 
+            <h4>Cidade : ${address[0].cidade}</h4>        
+            <h4>Estado : ${address[0].estado}</h4>        
           </div>
         </div>
       </div>
@@ -85,18 +89,12 @@ export default async function sendEmail(req, res) {
 
     const message = {
       from: "tecnologia@thasolutions.com.br",
-      to: "geancarlostha@gmail.com",
+      to: "tecnologia@thasolutions.com.br",
       subject: "Novo pedido - FGL Distribuidora",
       html: emailTemplate,
     };
 
-    try {
-      const sentEmail = transport.sendMail(message);
-      console.log(sentEmail);
-    } catch (error) {
-      console.error(error);
-    }
-
+    transport.sendMail(message);
     res.json({ erro: false, mensagem: "Email enviado com sucesso" });
   } catch (error) {
     console.error("Erro no envio do Email :",error);

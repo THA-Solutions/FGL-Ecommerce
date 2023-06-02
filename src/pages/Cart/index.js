@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { FaArrowLeft, FaTrashAlt } from "react-icons/fa";
 import { getSession } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import { BsCartPlus } from "react-icons/bs";
 
 export default function Cart() {
   const [itemCart, setItemCart] = useState([]);
@@ -31,9 +32,12 @@ export default function Cart() {
       getCartItems();
 
       async function checkAddress() {
-        const [address] = await axios.get(`/api/user/checkAddress`, {
-          params: { email: session.user.email },
-        }).then((res) => res.data);
+        const [address] = await axios
+          .get(`/api/user/checkAddress`, {
+            params: { email: session.user.email },
+          })
+          .then((res) => res.data);
+
         if (address) {
           setRoute("/Checkout");
           return;
@@ -114,6 +118,12 @@ export default function Cart() {
           </div>
           <hr />
           <div className={styles.product_list_cart}>
+            {itemCart.length === 0 && (
+              <div className={styles.empty_cart}>
+                <BsCartPlus />
+                <h1>Seu carrinho está vazio</h1>
+              </div>
+            )}
             <ItemCart
               cart={itemCart}
               updateQuantity={{ handleQuantity }}
@@ -126,14 +136,14 @@ export default function Cart() {
             <form action="/calcular-frete">
               <input type="number" placeholder="Digite seu CEP" name="cep" />
               <button type="subimit"> Calcular </button>
+              <Link
+                className={styles.calculate_freight_link}
+                href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+                target="_blank"
+              >
+                Não sei meu CEP
+              </Link>
             </form>
-            <Link
-              className={styles.calculate_freight_link}
-              href="https://buscacepinter.correios.com.br/app/endereco/index.php"
-              target="_blank"
-            >
-              Não sei meu CEP
-            </Link>
           </div>
         </div>
         <div className={styles.container_right}>

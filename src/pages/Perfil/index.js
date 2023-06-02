@@ -1,9 +1,11 @@
 import styles from "../../styles/Perfil.module.css";
 import Image from "next/image";
+import axios from "axios";
+
 import perfilImagemAlternative from "../../../public/fgl_quadrado.png";
+
 import { getSession, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 export default function Perfil() {
   const { data: session } = useSession();
