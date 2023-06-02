@@ -2,6 +2,7 @@ import db from "../../../lib/db";
 
 export default async function handlerGetProduct(req, res) {
   try {
+    
     const produtos = await db.produto.findMany({
       select: {
         categoria: true,

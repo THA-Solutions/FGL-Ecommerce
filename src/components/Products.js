@@ -43,7 +43,6 @@ export default function Products() {
             potencia_saida: product.potencia_saida,
             quantidade_mppt: product.quantidade_mppt,
             tensao_saida: product.tensao_saida,
-            img: "handleImagePaths()",
           };
         });
 
@@ -54,12 +53,12 @@ export default function Products() {
       }
     }
     fetchData();
-  }, [session]);
+  }, []);
 
   const handleAddToCart = async (id) => {
     if (session) {
       const produto = await axios
-        .get(`http://localhost:3000/api/product/getProductByID`, {
+        .get(`/api/product/getProductByID`, {
           params: {
             id: id,
           },
@@ -100,7 +99,6 @@ export default function Products() {
       "http://localhost:3000/api/cart/addItem",
       {
         shoppingCart: item,
-        totalValue: getCartValue(),
         email: session.user.email,
       }
     );
@@ -111,10 +109,7 @@ export default function Products() {
     product.titulo.toLocaleLowerCase().includes(search.toLowerCase())
   );
 
-  const getCartValue = () => {
-    const total = 1;
-    return total;
-  };
+  
 
   const produtosFiltradosPelaSearchBar = dadosFiltrados.filter((product) =>
     product.titulo.toLocaleLowerCase().includes(search.toLowerCase())
@@ -162,6 +157,7 @@ export default function Products() {
                     alt=""
                     className={styles.product_img + " " + styles.img}
                   />
+                  <h3 className={styles.product_brand}>{product.marca}</h3>
                   <h2 className={styles.product_title}>{product.titulo}</h2>
                 </Link>
 

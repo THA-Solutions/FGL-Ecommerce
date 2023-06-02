@@ -20,7 +20,6 @@ export default function Login() {
         email: data.email,
         password: data.password,
       });
-      console.log(res,"res");
     } catch (error) {
       setError(error.message);
     }

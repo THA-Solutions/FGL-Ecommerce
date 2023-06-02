@@ -2,7 +2,7 @@ import db from "../../../lib/db";
 
 export default async function handlerCartItems(req, res) {
   try {
-    const { shoppingCart, totalValue, email } = req.body;
+    const { shoppingCart, email } = req.body;
     const cartItems = async () => {
       const userPedido = await db.user.findFirst({
         where: {

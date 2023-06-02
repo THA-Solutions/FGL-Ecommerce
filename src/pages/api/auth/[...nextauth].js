@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import bcrypt from "bcryptjs";
 import db from "../../../lib/db";
 
 export default NextAuth({
@@ -12,31 +13,28 @@ export default NextAuth({
       name: "credentials",
       credentials: {},
        authorize: async (credentials) => {
-        try {
-          const user = await fetch("http://localhost:3000/api/user/login", {
-            method: "POST",
-            body: JSON.stringify(credentials),
-          }).then((res) => res.json());
-          
-        if (
-          credentials.email === user.email &&
-          credentials.authorized === true
-        ) {
-          return {
-            id: user.id,
-            image: "https://source.unsplash.com/random/200x200/?face",
-            name: user.name,
-            email: user.email,
-            phone: user.phone,
-          };
-        }
-        
-        return null;
-      } catch (error) {
-          console.error("Erro ao logar com as credentials", error);
-        }
-        
-      }}),
+  try {
+    console.log(credentials, "credentials");
+    const user = await fetch("http://localhost:3000/api/user/login", {
+      method: "POST",
+      body: JSON.stringify(credentials),
+    }).then((res) => res.json());
+    console.log(user, "user returned");
+    
+    if (
+      credentials.email === user.email &&
+      user.authorized === true
+    ) {
+      return user; // Credenciais válidas e usuário autorizado
+    }
+    
+    return false; // Credenciais inválidas ou usuário não autorizado
+  } catch (error) {
+    console.error("Erro ao logar com as credentials", error);
+    return false; // Ocorreu um erro ao verificar as credenciais
+  }
+}
+}),
 
     GithubProvider({
       clientId: process.env.GITHUB_ID,
@@ -55,16 +53,9 @@ export default NextAuth({
     secret: process.env.SECRET,
     encryption: true,
   },
-
+adapter: PrismaAdapter(db),
   callbacks: {
 
-    signIn: async (user, account, profile,session) => {
-      console.log(user, "user"),
-        console.log(account, "account"),
-        console.log(profile, "profile");
-      return Promise.resolve(true);
-    },
-    
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
@@ -72,13 +63,27 @@ export default NextAuth({
 
       return token;
     },
-    session: ({ session, token }) => {
-      if (token) {
+
+    session: ({ session, token, user }) => {
+      if (token && token.id) {
         session.id = token.id;
       }
 
-      return session;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          phone: user?.phone ?? "Número não cadastrado",
+        },
+      };
     },
+    signIn: async (user, account, profile) => {
+        console.log(user, "user"),
+          console.log(account, "account"),
+          console.log(profile, "profile");
+      
+        return Promise.resolve(true);
+      }
   },
 
   

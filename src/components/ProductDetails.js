@@ -1,5 +1,7 @@
+import { getSession } from "next-auth/react";
 import styles from "../styles/ProductDetails.module.css";
 import { useState } from "react";
+import axios from "axios";
 
 export default function ProductDetails(props) {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -18,6 +20,51 @@ const images = [
 ];
 
 
+const handleAddToCart = async (id) => {
+  const session = await getSession();
+  if (session) {
+    const {carts} = await axios.get(`/api/cart/getCart`, {
+      params: { email: session.user.email },
+    }).then((res) => { return res.data; });
+  console.log("produto: ", carts);
+  const alreadyInCart = carts.find((item) => item.id_produto === id);
+  console.log("alreadyInCart: ", alreadyInCart);
+
+  if (alreadyInCart) {
+    const newShoppingCart = carts.map((item) => {
+      if (item.id_produto === id) {
+        return {
+          ...item,
+          quantidade: item.quantidade + 1,
+          total: item.preco * (item.quantidade + 1),
+        };
+      } else {
+        return item;
+      }
+    });
+    await addCartItem(newShoppingCart);
+  }else{
+    const newCartItem = {
+      titulo:carts.titulo_produto,
+      id: carts.id_produto,
+      preco: produto.preco,
+      quantidade: 1,
+      total: produto.preco,
+  }
+  await addCartItem(newCartItem);
+  }}}
+
+async function addCartItem(item) {
+  const session = await getSession();
+  const addCartItem = await axios.post(
+    "http://localhost:3000/api/cart/addItem",
+    {
+      shoppingCart: item,
+      email: session.user.email,
+    }
+  );
+  return addCartItem.data;
+}
   
   return (
     <>
@@ -73,7 +120,7 @@ const images = [
           )}
           <div className={styles.checkout_buttons}>
             <button className={styles.buy}>Comprar</button>
-            <button className={styles.add_cart}>Adicionar ao carrinho</button>
+            <button className={styles.add_cart} onClick={() => { handleAddToCart(props.produto.id)}}>Adicionar ao carrinho</button>
           </div>
         </div>
       </section>

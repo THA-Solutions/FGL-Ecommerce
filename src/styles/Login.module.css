@@ -59,12 +59,19 @@
   color: #fff;
   font-weight: 700;
   background-color: orange;
-  transition: all 0.3s ease;
+  transition: 0.3s;
   cursor: pointer;
 }
 
 .field button:hover {
   background-color: #016dcb;
+}
+
+.button_field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .form_link {

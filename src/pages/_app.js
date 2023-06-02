@@ -11,6 +11,7 @@ export default function App({
 }) {
   return (
     <SessionProvider session={session}>
+    
       <SearchProvider>
         <FilterProvider>
           <MainContainer>
@@ -18,6 +19,7 @@ export default function App({
           </MainContainer>
         </FilterProvider>
       </SearchProvider>
+      
     </SessionProvider>
   );
 }
