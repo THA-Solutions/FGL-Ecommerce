@@ -8,12 +8,12 @@ export default async function handler(req, res) {
         id: user.id,
         name: user.name,
         email: user.email,
+        lastname: user.lastname,
         phone: Number(user.phone),
       }
       res.status(200).json(userData);
       return userData
     }else{
-      res.status(400).json("Usuario não encontrado");
       return null
     }
     

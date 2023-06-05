@@ -14,7 +14,8 @@ export async function register(body) {
     } else {
       const createdUser = await db.user.create({
         data: {
-          name: `${userData.firstName} ${userData.lastName}`,
+          name: userData.firstName,
+          sobrenome: userData.lastName,
           email: userData.email,
           password: userData.password,
           phone: Number(userData.phone),
@@ -133,25 +134,23 @@ export async function singInResquest(body) {
       },
     });
     
-
-  //  const userAndSession = await db.session.findFirst({
-  //    where: { userId:user.id },
-  //    include: { user: true },
-  //});
-  console.log(userData,"userData in service")
-  console.log(user,"user in service")
-    const validate = bcrypt.compareSync(userData.password, user.password);
+  if (user) {
+  const validate = bcrypt.compareSync(userData.password, user.password);
     if (validate) {
       return {
         name: user.name,
         email: user.email,
         phone: user.phone,
-        id: user.id,
-        authorized:true
+        lastName: user.sobrenome,
+        id: user.id
       };
     } else {
-      console.error("Senha incorreta!");
+      throw new Error("Senha incorreta!");
     }
+  } else {
+  return null
+  }
+    
   } catch (error) {
     console.error(error, "Falha ao logar");
     throw new Error("Senha incorreta!");

@@ -20,7 +20,8 @@ export default function Login() {
         email: data.email,
         password: data.password,
 
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.error(error,"error");
       });
 
@@ -148,4 +149,4 @@ export const getServerSideProps = async (ctx) => {
       session,
     },
   };
-};
+}

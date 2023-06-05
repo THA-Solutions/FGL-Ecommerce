@@ -14,11 +14,6 @@ export default function Perfil() {
 
   const [updateInfo, setUpdateInfo] = useState(true);
 
-
-
-  const router = useRouter();
-
-
   useEffect(() => {
     async function getCartItems() {
       await axios.get(`/api/cart/getCart`, {
@@ -78,8 +73,7 @@ export default function Perfil() {
                 className={styles.input}
                 id="lastName"
                 placeholder={
-                  session?.user?.name+
-                    session?.user?.name
+                  session?.user?.lastName
                 }
                 type="text"
                 disabled={updateInfo}
