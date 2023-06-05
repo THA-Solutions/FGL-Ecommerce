@@ -21,7 +21,7 @@ export default function ItemCart({ cart, updateQuantity, removeFromCart }) {
 
   return (
     <div>
-      {itemCart.map((item) => (
+      {itemCart?.map((item) => (
         <div className={styles.product_cart}>
           <Image
             width={100}

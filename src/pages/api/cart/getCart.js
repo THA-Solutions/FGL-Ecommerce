@@ -13,8 +13,8 @@ export default async function getCartItems(req, res) {
         status: "ATIVO",
       },
     }); //Procura no banco a axistencia de um carrinho ativo para o usuario
-
-    if (!cartItems) {
+    console.log(cartItems, "cartItems");
+    if (!cartItems || cartItems===null) {
       try {
         const cart = await db.pedido.create({
           data: {

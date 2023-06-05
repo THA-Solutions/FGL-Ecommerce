@@ -89,7 +89,7 @@ export default async function sendEmail(req, res) {
 
     const message = {
       from: "tecnologia@thasolutions.com.br",
-      to: "tecnologia@thasolutions.com.br",
+      to: "cokif54351@vaband.com",
       subject: "Novo pedido - FGL Distribuidora",
       html: emailTemplate,
     };

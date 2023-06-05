@@ -19,7 +19,11 @@ export default function Login() {
       const res = await signIn("credentials", {
         email: data.email,
         password: data.password,
+
+      }).catch((error) => {
+        console.error(error,"error");
       });
+
     } catch (error) {
       setError(error.message);
     }

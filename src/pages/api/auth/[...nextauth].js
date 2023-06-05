@@ -10,25 +10,38 @@ export default NextAuth({
  
   providers: [
     CredentialsProvider({
+      id: "credentials",
       name: "credentials",
       credentials: {},
        authorize: async (credentials) => {
   try {
     console.log(credentials, "credentials");
+    
     const user = await fetch("http://localhost:3000/api/user/login", {
       method: "POST",
-      body: JSON.stringify(credentials),
-    }).then((res) => res.json());
-    console.log(user, "user returned");
-    
-    if (
-      credentials.email === user.email &&
-      user.authorized === true
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        accept: "application/json",
+      },
+      body:Object.entries(credentials)
+      .map((e) => e.join("="))
+      .join("&"),
+    }).then((res) => res.json()).catch((err) => {
+      return null;
+    });
+
+    if (user
     ) {
-      return user; // Credenciais válidas e usuário autorizado
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+      }; // Credenciais válidas e usuário autorizado
+    }else{
+      return null;
     }
-    
-    return false; // Credenciais inválidas ou usuário não autorizado
+     // Credenciais inválidas ou usuário não autorizado
   } catch (error) {
     console.error("Erro ao logar com as credentials", error);
     return false; // Ocorreu um erro ao verificar as credenciais
@@ -53,42 +66,14 @@ export default NextAuth({
     secret: process.env.SECRET,
     encryption: true,
   },
-adapter: PrismaAdapter(db),
-  callbacks: {
 
-    jwt: ({ token, user }) => {
-      if (user) {
-        token.id = user.id;
-      }
 
-      return token;
-    },
-
-    session: ({ session, token, user }) => {
-      if (token && token.id) {
-        session.id = token.id;
-      }
-
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          phone: user?.phone ?? "Número não cadastrado",
-        },
-      };
-    },
-    signIn: async (user, account, profile) => {
-        console.log(user, "user"),
-          console.log(account, "account"),
-          console.log(profile, "profile");
-      
-        return Promise.resolve(true);
-      }
-  },
-
+  session: { strategy: "jwt" },
   
 
-  pages: {
-    signIn: "/Login",
-  },
+  
+  adapter: PrismaAdapter(db),
+ 
+    
+
 });

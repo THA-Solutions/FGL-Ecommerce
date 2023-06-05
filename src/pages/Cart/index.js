@@ -118,7 +118,7 @@ export default function Cart() {
           </div>
           <hr />
           <div className={styles.product_list_cart}>
-            {itemCart.length === 0 && (
+            {itemCart?.length === 0 && (
               <div className={styles.empty_cart}>
                 <BsCartPlus />
                 <h1>Seu carrinho está vazio</h1>

@@ -35,6 +35,7 @@ export const FilterProvider = ({ children }) => {
           return item[filterParam] !== value;
         }
       });
+
       setDadosFiltrados([...campoFiltrado]);
     }
   };

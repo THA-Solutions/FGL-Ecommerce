@@ -104,6 +104,9 @@ export default function Checkout() {
       session: session,
       address: address,
     });
+    await axios.post(`/api/cart/closeCart`, {
+      email: session.user.email,
+    })
     return result;
   };
 

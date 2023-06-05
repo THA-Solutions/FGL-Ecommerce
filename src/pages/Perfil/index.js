@@ -6,12 +6,18 @@ import perfilImagemAlternative from "../../../public/fgl_quadrado.png";
 
 import { getSession, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Perfil() {
   const { data: session } = useSession();
   const [address, setAddress] = useState([]);
 
   const [updateInfo, setUpdateInfo] = useState(true);
+
+
+
+  const router = useRouter();
+
 
   useEffect(() => {
     async function getCartItems() {
@@ -61,7 +67,7 @@ export default function Perfil() {
                 className={styles.input}
                 id="firstName"
                 placeholder={
-                  session?.user?.name.split(" ")[0] || "Primeiro nome"
+                  session?.user?.name
                 }
                 type="text"
                 disabled={updateInfo}
@@ -72,9 +78,8 @@ export default function Perfil() {
                 className={styles.input}
                 id="lastName"
                 placeholder={
-                  session?.user?.name.split(" ")[1] +
-                    " " +
-                    session?.user?.name.split(" ")[2] || "Sobrenome"
+                  session?.user?.name+
+                    session?.user?.name
                 }
                 type="text"
                 disabled={updateInfo}

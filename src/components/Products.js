@@ -47,7 +47,6 @@ export default function Products() {
         });
 
         setProdutosNoBancoDeDados(listaProdutosTratada);
-        console.log("listaProdutosTratada: ", listaProdutosTratada);
       } catch (error) {
         console.error("Erro ao carregar a pagina de produtos", error);
       }
@@ -105,23 +104,21 @@ export default function Products() {
     return addCartItem.data;
   }
 
-  const productsList = produtosNoBancoDeDados.filter((product) =>
+
+  const produtosFiltradosPelaSearchBar = produtosNoBancoDeDados.filter((product) =>
     product.titulo.toLocaleLowerCase().includes(search.toLowerCase())
   );
+  
+  
+  let produtos=[]
 
   
+    if (produtosFiltradosPelaSearchBar.length === 0) {
+      produtos= ( dadosFiltrados===0 ? produtosNoBancoDeDados : dadosFiltrados)
+    } else {
+      produtos=produtosFiltradosPelaSearchBar
+    }
 
-  const produtosFiltradosPelaSearchBar = dadosFiltrados.filter((product) =>
-    product.titulo.toLocaleLowerCase().includes(search.toLowerCase())
-  );
-
-  let produtos = [];
-
-  if (produtosFiltradosPelaSearchBar.length === 0) {
-    produtos = produtosNoBancoDeDados;
-  } else {
-    produtos = produtosFiltradosPelaSearchBar;
-  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -130,6 +127,7 @@ export default function Products() {
   }, [addCartPopUp]);
 
   return (
+    console.log(dadosFiltrados,"dadosFiltrados"),
     <>
       <div className={styles.container_carousel}>
         <CarouselComponent />

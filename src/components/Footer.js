@@ -17,8 +17,9 @@ export default function Footer() {
 
           <div className={styles.footer_links_div}>
             <h4>Atendimento</h4>
-            <p>empresa@gmail.com</p>
-            <p>(44) 3321-3321</p>
+            <p>atendimento@fgldistribuidora.com</p>
+            <p>(44) 99809-6379</p>
+            <p>Av. Melvin Jones 1194</p>
           </div>
 
           <div className={styles.footer_links_div}>

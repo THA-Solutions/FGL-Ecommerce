@@ -36,7 +36,8 @@ export default async function handlerCartItems(req, res) {
               },
             });
             if (productInCart) {
-              let quantidade = productInCart.quantidade++;
+
+              const quantidade = productInCart.quantidade + 1;
 
               const produto_updtd = await db.itempedido.update({
                 where: { id_itempedido: productInCart.id_itempedido},
@@ -45,6 +46,7 @@ export default async function handlerCartItems(req, res) {
                   total: (Number(item.preco) * quantidade),
                 },
               });
+
               return produto_updtd;
             } else {
               const produto_crtd = await db.itempedido.create({
