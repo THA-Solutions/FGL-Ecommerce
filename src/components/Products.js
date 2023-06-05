@@ -11,6 +11,7 @@ import { BsFillCartPlusFill } from "react-icons/bs";
 import { useSession, getSession } from "next-auth/react";
 import { SearchContext } from "../context/SearchContext";
 import { FilterContext } from "@/context/FilterContext";
+import { set } from "react-hook-form";
 
 export default function Products() {
   const { data: session } = useSession();
@@ -104,22 +105,14 @@ export default function Products() {
     return addCartItem.data;
   }
 
-
-  const produtosFiltradosPelaSearchBar = produtosNoBancoDeDados.filter((product) =>
+let array= (dadosFiltrados.length===0? produtosNoBancoDeDados : dadosFiltrados)
+  const produtosFiltradosPelaSearchBar = array.filter((product) =>
     product.titulo.toLocaleLowerCase().includes(search.toLowerCase())
   );
-  
-  
-  let produtos=[]
-
-  
-    if (produtosFiltradosPelaSearchBar.length === 0) {
-      produtos= ( dadosFiltrados===0 ? produtosNoBancoDeDados : dadosFiltrados)
-    } else {
-      produtos=produtosFiltradosPelaSearchBar
-    }
-
-
+  const [produtos,setProdutos] = useState([])
+    useEffect(() => {
+      setProdutos(produtosFiltradosPelaSearchBar)
+  }, [produtosFiltradosPelaSearchBar.length])
   useEffect(() => {
     setTimeout(() => {
       setAddCartPopUp(false);
@@ -127,7 +120,6 @@ export default function Products() {
   }, [addCartPopUp]);
 
   return (
-    console.log(dadosFiltrados,"dadosFiltrados"),
     <>
       <div className={styles.container_carousel}>
         <CarouselComponent />

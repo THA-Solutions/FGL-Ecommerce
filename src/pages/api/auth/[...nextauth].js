@@ -27,7 +27,6 @@ export default NextAuth({
               .join("&"),
           }).then((res) => res.json())
             .catch((err) => null);
-
           if (user) {
             return {
               id: user.id,
@@ -70,7 +69,7 @@ export default NextAuth({
 
   pages: {
     signIn: "/Login",
-    signOut: "/Login",
+    signOut: "/",
     error: "/Login",
   },
 });

@@ -145,7 +145,7 @@ export async function singInResquest(body) {
         id: user.id
       };
     } else {
-      throw new Error("Senha incorreta!");
+      return null;
     }
   } else {
   return null
