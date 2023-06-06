@@ -26,31 +26,48 @@ const handleAddToCart = async (id) => {
     const {carts} = await axios.get(`/api/cart/getCart`, {
       params: { email: session.user.email },
     }).then((res) => { return res.data; });
-  console.log("produto: ", carts);
+
+
   const alreadyInCart = carts.find((item) => item.id_produto === id);
-  console.log("alreadyInCart: ", alreadyInCart);
+
 
   if (alreadyInCart) {
-    const newShoppingCart = carts.map((item) => {
-      if (item.id_produto === id) {
-        return {
-          ...item,
-          quantidade: item.quantidade + 1,
-          total: item.preco * (item.quantidade + 1),
-        };
-      } else {
-        return item;
-      }
-    });
-    await addCartItem(newShoppingCart);
+    const produto = await axios
+    .get(`/api/product/getProductByID`, {
+      params: {
+        id: id,
+      },
+    }).then((response) => response.data);
+          const newCartItem = [{
+            titulo:produto.titulo_produto,
+            id: produto.id_produto,
+            preco: produto.preco,
+            quantidade: 1,
+            total: produto.preco,
+        }]
+
+
+    await addCartItem(newCartItem);
+    return;
   }else{
-    const newCartItem = {
-      titulo:carts.titulo_produto,
-      id: carts.id_produto,
+
+    const produto = await axios
+    .get(`/api/product/getProductByID`, {
+      params: {
+        id: id,
+      },
+    })
+    .then((response) => response.data);
+
+  
+    const newCartItem = [{
+      titulo:produto.titulo_produto,
+      id: produto.id_produto,
       preco: produto.preco,
       quantidade: 1,
       total: produto.preco,
-  }
+  }]
+  console.log(newCartItem, "newCartItem")
   await addCartItem(newCartItem);
   }}}
 

@@ -3,6 +3,7 @@ import db from "../../../lib/db";
 export default async function handlerCartItems(req, res) {
   try {
     const { shoppingCart, email } = req.body;
+    console.log("shoppingCart", shoppingCart);
     const cartItems = async () => {
       const userPedido = await db.user.findFirst({
         where: {

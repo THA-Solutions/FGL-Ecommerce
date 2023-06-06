@@ -6,15 +6,11 @@ import perfilImagemAlternative from "../../../public/fgl_quadrado.png";
 
 import { getSession, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 
 export default function Perfil() {
   const { data: session } = useSession();
   const [address, setAddress] = useState([]);
-
   const [updateInfo, setUpdateInfo] = useState(true);
-
-  const router = useRouter();
 
   useEffect(() => {
     async function getCartItems() {

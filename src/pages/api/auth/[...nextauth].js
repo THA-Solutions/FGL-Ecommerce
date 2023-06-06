@@ -7,47 +7,44 @@ import bcrypt from "bcryptjs";
 import db from "../../../lib/db";
 
 export default NextAuth({
- 
   providers: [
     CredentialsProvider({
       id: "credentials",
       name: "credentials",
       credentials: {},
-       authorize: async (credentials) => {
-  try {
-    console.log(credentials, "credentials");
-    
-    const user = await fetch("http://localhost:3000/api/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        accept: "application/json",
-      },
-      body:Object.entries(credentials)
-      .map((e) => e.join("="))
-      .join("&"),
-    }).then((res) => res.json()).catch((err) => {
-      return null;
-    });
+      authorize: async (credentials) => {
+        try {
+          console.log(credentials, "credentials");
 
-    if (user
-    ) {
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-      }; // Credenciais válidas e usuário autorizado
-    }else{
-      return null;
-    }
-     // Credenciais inválidas ou usuário não autorizado
-  } catch (error) {
-    console.error("Erro ao logar com as credentials", error);
-    return false; // Ocorreu um erro ao verificar as credenciais
-  }
-}
-}),
+          const user = await fetch("http://localhost:3000/api/user/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              accept: "application/json",
+            },
+            body: Object.entries(credentials)
+              .map((e) => e.join("="))
+              .join("&"),
+          })
+            .then((res) => res.json())
+            .catch((err) => null);
+          if (user) {
+            return {
+              id: user.id,
+              name: user.name,
+              lastname: user.lastname,
+              email: user.email,
+              phone: user.phone,
+            }; // Credenciais válidas e usuário autorizado
+          } else {
+            return null;
+          }
+        } catch (error) {
+          console.error("Erro ao logar com as credentials", error);
+          return null; // Ocorreu um erro ao verificar as credenciais
+        }
+      },
+    }),
 
     GithubProvider({
       clientId: process.env.GITHUB_ID,
@@ -67,13 +64,13 @@ export default NextAuth({
     encryption: true,
   },
 
-  session: { 
-    strategy: "jwt" 
-  },
-  
+  session: { strategy: "jwt" },
+
   adapter: PrismaAdapter(db),
- 
+
   pages: {
     signIn: "/Login",
-  }
+    signOut: "/",
+    error: "/Login",
+  },
 });

@@ -37,7 +37,8 @@ export default async function handlerGetProduct(req, res) {
 
     function dataToFilter() {
       const data = produtos.map((produto) => {
-        const produt = {
+        const produtos = {
+          //Tratamento de dados para retornar apenas os atributos necessarios
           categoria: produto.categoria,
           titulo: produto.titulo_produto,
           id_produto: produto.id_produto,
@@ -45,6 +46,7 @@ export default async function handlerGetProduct(req, res) {
           preco: produto.preco,
           modelo: produto.modelo,
           potencia_modulo:
+          //As estruturas condicionais abaixo verificam se o produto em questao possui determinado atributo, caso nao possua, retorna null
             produto.painel.length > 0
               ? produto.painel[0].potencia_modulo
               : null,
@@ -65,7 +67,7 @@ export default async function handlerGetProduct(req, res) {
               ? produto.microinversores[0].tensao_saida
               : null,
         };
-        return produt;
+        return produtos;
       });
       return data;
     }
