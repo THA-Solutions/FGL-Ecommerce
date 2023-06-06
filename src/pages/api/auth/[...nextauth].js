@@ -67,13 +67,13 @@ export default NextAuth({
     encryption: true,
   },
 
-
-  session: { strategy: "jwt" },
-  
-
+  session: { 
+    strategy: "jwt" 
+  },
   
   adapter: PrismaAdapter(db),
  
-    
-
+  pages: {
+    signIn: "/Login",
+  }
 });

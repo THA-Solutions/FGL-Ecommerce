@@ -16,13 +16,13 @@ export default function Footer() {
           </div>
 
           <div className={styles.footer_links_div}>
-            <h4>Atendimento</h4>
+            <h4 className={styles.atendimento}>Atendimento</h4>
             <p>atendimento@fgldistribuidora.com</p>
             <p>(44) 99809-6379</p>
             <p>Av. Melvin Jones 1194</p>
           </div>
 
-          <div className={styles.footer_links_div}>
+          {/* <div className={styles.footer_links_div}>
             <h4>Políticas da Loja</h4>
             <Link className={styles.footer_sub_link} href="/formas-pagamento">
               <p>Formas de pagamento</p>
@@ -33,7 +33,7 @@ export default function Footer() {
             <Link className={styles.footer_sub_link} href="/prazos-entrega">
               <p>Prazos e Entrega</p>
             </Link>
-          </div>
+          </div> */}
 
           <div className={styles.footer_links_div}>
             <h4>Redes Sociais</h4>

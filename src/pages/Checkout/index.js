@@ -4,6 +4,9 @@ import styles from "../../styles/Checkout.module.css";
 import { getSession } from "next-auth/react";
 import { useEffect, useState, useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
+import UInumber from "@/UI/UInumber";
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function Checkout() {
   const [session, setSession] = useState();
@@ -13,6 +16,7 @@ export default function Checkout() {
   const [editAddress, setEditAddress] = useState(false);
   const [itemCart, setItemCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -106,9 +110,15 @@ export default function Checkout() {
     });
     await axios.post(`/api/cart/closeCart`, {
       email: session.user.email,
-    })
+    });
+    router.push("/Finish");
     return result;
   };
+
+  function subCaract(texto) {
+    const caracteresEspeciais = /[!@#$%&*()+=[\]{}|\\/<>,.?:;]/g;
+    return texto.replace(caracteresEspeciais, "-");
+  }
 
   return (
     <div className={styles.container_checkout}>
@@ -122,12 +132,11 @@ export default function Checkout() {
               onSubmit={handleSubmit(onSubmit)}
               className={styles.formClass}
             >
-            
               <div className={styles.field + " " + styles.input_field}>
                 <label>Nome</label>
                 <input
                   className={styles.input}
-                  placeholder={session?.user?.name|| "CEP"}
+                  placeholder={session?.user?.name}
                   type="text"
                   disabled={true}
                 />
@@ -136,7 +145,7 @@ export default function Checkout() {
                 <label>E-mail</label>
                 <input
                   className={styles.input}
-                  placeholder={session?.user?.email|| "CEP"}
+                  placeholder={session?.user?.email}
                   type="text"
                   disabled={true}
                 />
@@ -145,7 +154,7 @@ export default function Checkout() {
                 <label>Telefone</label>
                 <input
                   className={styles.input}
-                  placeholder={session?.user?.phone|| "CEP"}
+                  placeholder={session?.user?.phone}
                   type="text"
                   disabled={true}
                 />
@@ -277,16 +286,16 @@ export default function Checkout() {
                   <button type="submit" className={styles.button_submit}>
                     SALVAR
                   </button>
-                ): (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setUpdateInfo(false);
-                    setEditAddress(true);
-                  }}
-                >
-                  EDITAR
-                </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUpdateInfo(false);
+                      setEditAddress(true);
+                    }}
+                  >
+                    EDITAR
+                  </button>
                 )}
               </div>
             </form>
@@ -297,20 +306,36 @@ export default function Checkout() {
       {/* Dados da compra */}
       <section className={styles.container + " " + styles.forms}>
         <div className={styles.form + " " + styles.login}>
-          <div className={styles.form_content}>
+          <div className={styles.form_content_product}>
             <header>Confirme seus produtos</header>
             {itemCart.map((item, index) => (
-              <div key={index}>
-                <p>{item.titulo_produto}</p>
-                <p>{item.quantidade}</p>
-                <p>{item.total}</p>
+              <div className={styles.product_content} key={index}>
+                <Image
+                  width={100}
+                  height={100}
+                  src={`/${item.produto.marca_produto}/${subCaract(
+                    item.produto.modelo
+                  )}.${"png" || "jpg" || "jpeg" || "gif" || "svg" || "webp"}`}
+                  /*{item.img}*/
+                  alt=""
+                  className={styles.product_img}
+                />
+                <h3>{item.titulo_produto}</h3>
+                <p>Quantidade: {item.quantidade}</p>
+                <p>
+                  Valor: <UInumber>{item.total}</UInumber>
+                </p>
               </div>
-              )
-            )}
+            ))}
           </div>
+          <p className={styles.total_products}>
+            Total da compra: <UInumber>{total}</UInumber>
+          </p>
+          <button className={styles.finish_button} onClick={() => sendEmail()}>
+            FINALIZAR COMPRA
+          </button>
         </div>
       </section>
-      <button onClick={() => sendEmail()}>FINALIZAR</button>
     </div>
   );
 }

@@ -14,10 +14,7 @@ export default function Perfil() {
 
   const [updateInfo, setUpdateInfo] = useState(true);
 
-
-
   const router = useRouter();
-
 
   useEffect(() => {
     async function getCartItems() {
@@ -66,9 +63,7 @@ export default function Perfil() {
               <input
                 className={styles.input}
                 id="firstName"
-                placeholder={
-                  session?.user?.name
-                }
+                placeholder={session?.user?.name}
                 type="text"
                 disabled={updateInfo}
               />
@@ -77,10 +72,7 @@ export default function Perfil() {
               <input
                 className={styles.input}
                 id="lastName"
-                placeholder={
-                  session?.user?.name+
-                    session?.user?.name
-                }
+                placeholder={session?.user?.lastName}
                 type="text"
                 disabled={updateInfo}
               />
