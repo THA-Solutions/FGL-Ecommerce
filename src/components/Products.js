@@ -13,7 +13,7 @@ import { SearchContext } from "../context/SearchContext";
 import { FilterContext } from "@/context/FilterContext";
 import { set } from "react-hook-form";
 
-export default function Products() {
+export default function Products(divisao) {
   const { data: session } = useSession();
   const { dadosFiltrados } = useContext(FilterContext);
   const { search } = useContext(SearchContext);
@@ -31,7 +31,7 @@ export default function Products() {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/product/getProductList"
+          "/api/product/getProductList",{params:{divisao:divisao}}
         );
         const listaProdutosTratada = response.data.map((product) => {
           return {
@@ -40,6 +40,7 @@ export default function Products() {
             preco: product.preco,
             marca: product.marca,
             modelo: product.modelo,
+            categoria: product.categoria,
             potencia_modulo: product.potencia_modulo,
             potencia_saida: product.potencia_saida,
             quantidade_mppt: product.quantidade_mppt,
@@ -96,7 +97,7 @@ export default function Products() {
 
   async function addCartItem(item) {
     const addCartItem = await axios.post(
-      "http://localhost:3000/api/cart/addItem",
+      "/api/cart/addItem",
       {
         shoppingCart: item,
         email: session.user.email,
@@ -120,6 +121,7 @@ let array= (dadosFiltrados.length===0? produtosNoBancoDeDados : dadosFiltrados)
   }, [addCartPopUp]);
 
   return (
+    console.log(produtos),
     <>
       <div className={styles.container_carousel}>
         <CarouselComponent />

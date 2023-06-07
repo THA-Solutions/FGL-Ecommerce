@@ -74,7 +74,7 @@ const handleAddToCart = async (id) => {
 async function addCartItem(item) {
   const session = await getSession();
   const addCartItem = await axios.post(
-    "http://localhost:3000/api/cart/addItem",
+    "/api/cart/addItem",
     {
       shoppingCart: item,
       email: session.user.email,

@@ -6,7 +6,7 @@ export async function getServerSideProps(context) {
   const { params } = context;
   const id = params.id_produto;
   const productData = await axios.get(
-    `http://localhost:3000/api/product/getProductByID`,
+    `/api/product/getProductByID`,
     {
       params: {
         id: id,
@@ -23,7 +23,7 @@ export async function getServerSideProps(context) {
     descricao: response.data.descricao,
   }});
   const comments = await axios.get(
-    "http://localhost:3000/api/comments/getComments",
+    "/api/comments/getComments",
     {
       params: {
         id: id,

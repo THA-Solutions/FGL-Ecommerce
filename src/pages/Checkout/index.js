@@ -9,10 +9,12 @@ export default function Checkout() {
   const [session, setSession] = useState();
   const [address, setAddress] = useState([]);
   const [updateInfo, setUpdateInfo] = useState(true);
+  const [updateUserInfo, setUpdateUserInfo] = useState(true);
   const [error, setError] = useState("");
   const [editAddress, setEditAddress] = useState(false);
   const [itemCart, setItemCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [EditUserDetails,setEditUserDetails]=useState(false);
   const {
     register,
     handleSubmit,
@@ -21,7 +23,7 @@ export default function Checkout() {
     formState: { errors },
   } = useForm();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     async function getSessionUser() {
       const session = await getSession();
       setSession(session);
@@ -53,7 +55,7 @@ export default function Checkout() {
     getCartItems();
   }, []);
 
-  const onSubmit = async (body) => {
+  const updateAddress = async (body) => {
     setEditAddress(false);
     setUpdateInfo(true);
     const session = await getSession();
@@ -69,6 +71,23 @@ export default function Checkout() {
           complemento: body.complemento,
           cidade: body.cidade,
           estado: body.estado,
+        }),
+      });
+    } catch (error) {
+      console.error("Erro na atualização do endereço: ", error);
+    }
+  };
+
+
+  const updateUserDetails = async (data) => {
+    setEditUserDetails(false);
+    setUpdateUserInfo(true);
+    try {
+      await fetch("/api/user/updateUser", {
+        method: "POST",
+        body: JSON.stringify({
+          email: data.email,
+          telefone: data.phone,
         }),
       });
     } catch (error) {
@@ -119,7 +138,7 @@ export default function Checkout() {
             <header>Confirme seus dados</header>
 
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(updateUserDetails)}
               className={styles.formClass}
             >
             
@@ -127,7 +146,8 @@ export default function Checkout() {
                 <label>Nome</label>
                 <input
                   className={styles.input}
-                  placeholder={session?.user?.name|| "CEP"}
+                  id="name"
+                  placeholder={session?.user?.name|| "Nome"}
                   type="text"
                   disabled={true}
                 />
@@ -136,7 +156,8 @@ export default function Checkout() {
                 <label>E-mail</label>
                 <input
                   className={styles.input}
-                  placeholder={session?.user?.email|| "CEP"}
+                  id="email"
+                  placeholder={session?.user?.email|| "E-Mail"}
                   type="text"
                   disabled={true}
                 />
@@ -145,11 +166,30 @@ export default function Checkout() {
                 <label>Telefone</label>
                 <input
                   className={styles.input}
-                  placeholder={session?.user?.phone|| "CEP"}
+                  id="phone"
+                  placeholder={session?.user?.phone|| "Telefone"}
                   type="text"
-                  disabled={true}
+                  {...register("phone")}
+                  disabled={false}
                 />
               </div>
+              <div className={styles.field + " " + styles.button_field}>
+              {EditUserDetails ? (
+                  <button type="submit" className={styles.button_submit}>
+                    SALVAR
+                  </button>
+                ): (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUpdateUserInfo(false);
+                    setEditUserDetails(true);
+                  }}
+                >
+                  EDITAR
+                </button>
+                )}
+                </div>
             </form>
           </div>
         </div>
@@ -162,7 +202,7 @@ export default function Checkout() {
             <header>Confirme seu endereço</header>
 
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(updateAddress)}
               className={styles.formClass}
             >
               <div className={styles.field + " " + styles.input_field}>
@@ -175,11 +215,11 @@ export default function Checkout() {
                   onBlur={checkCEP}
                   disabled={updateInfo}
                 />
-                {errors?.cep?.type === "required" && (
+                {editAddress===true ?errors?.cep?.type === "required" && (
                   <span className={styles.error_message}>
                     O CEP é obrigatório.
                   </span>
-                )}
+                ): null}
                 {error && <span>{error}</span>}
               </div>
               <div className={styles.field + " " + styles.input_field}>
@@ -191,11 +231,11 @@ export default function Checkout() {
                   {...register("logradouro", { required: true })}
                   disabled={updateInfo}
                 />
-                {errors?.logradouro?.type === "required" && (
+                {editAddress===true ?errors?.logradouro?.type === "required" && (
                   <span className={styles.error_message}>
                     O logradouro é obrigatório.
                   </span>
-                )}
+                ): null}
               </div>
               <div className={styles.group_number_neighborhood}>
                 <div className={styles.field + " " + styles.input_field}>
@@ -207,11 +247,11 @@ export default function Checkout() {
                     {...register("numero", { required: true })}
                     disabled={updateInfo}
                   />
-                  {errors?.numero?.type === "required" && (
+                  {editAddress===true ?errors?.numero?.type === "required" && (
                     <span className={styles.error_message}>
                       O número é obrigatório.
                     </span>
-                  )}
+                  ): null}
                 </div>
                 <div className={styles.field + " " + styles.input_field}>
                   <input
@@ -222,11 +262,11 @@ export default function Checkout() {
                     {...register("bairro", { required: true })}
                     disabled={updateInfo}
                   />
-                  {errors?.bairro?.type === "required" && (
+                  {editAddress===true ?errors?.bairro?.type === "required" && (
                     <span className={styles.error_message}>
                       O bairro é obrigatório.
                     </span>
-                  )}
+                  ): null}
                 </div>
               </div>
               <div className={styles.field + " " + styles.input_field}>
@@ -249,11 +289,11 @@ export default function Checkout() {
                     {...register("cidade", { required: true })}
                     disabled={updateInfo}
                   />
-                  {errors?.cidade?.type === "required" && (
+                  {editAddress===true ?errors?.cidade?.type === "required" && (
                     <span className={styles.error_message}>
                       A cidade é obrigatória.
                     </span>
-                  )}
+                  ): null}
                 </div>
 
                 <div className={styles.field + " " + styles.input_field}>
@@ -265,15 +305,15 @@ export default function Checkout() {
                     {...register("estado", { required: true })}
                     disabled={updateInfo}
                   />
-                  {errors?.estado?.type === "required" && (
+                  { editAddress===true ? errors?.estado?.type === "required" && (
                     <span className={styles.error_message}>
                       O estado é obrigatório.
                     </span>
-                  )}
+                  ): null}
                 </div>
               </div>
               <div className={styles.field + " " + styles.button_field}>
-                {editAddress ? (
+                { editAddress ? (
                   <button type="submit" className={styles.button_submit}>
                     SALVAR
                   </button>

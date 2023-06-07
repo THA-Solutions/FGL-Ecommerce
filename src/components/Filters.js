@@ -3,20 +3,24 @@ import { FilterContext } from "@/context/FilterContext";
 import { useContext } from "react";
 
 export default function Filters(props) {
+  //Props recebe os dados dos produtos do componente Products
   const { handleOnCheckbox, setProdutos } = useContext(FilterContext);
+  //handleOnCheckbox -> funcao que filtra os produtos de acordo com os filtros selecionados
+  //setProdutos -> funcao que atualiza o estado dos produtos filtrados
   const produtos = props.data;
 
   setProdutos(props.data);
 
-  const sortValues = (values) => {
-    return values.sort((a, b) => {
-      if (typeof a === "string" && typeof b === "string") {
-        return a.localeCompare(b, undefined, { numeric: true });
+  const sortValues = (productToSort) => {
+    return productToSort.sort((productA, productB) => {
+      //productA -> valor anterior do array, productB -> valor atual do array
+      if (typeof productA === "string" && typeof productB === "string") {
+        return productA.localeCompare(productB, undefined, { numeric: true });
       } else {
-        return a - b;
+        return productA - productB;
       }
     });
-  };
+  };//Funcao que ordena os valores do array por ordem alfabetica ou numerica
 
   return (
     <>
@@ -49,7 +53,9 @@ export default function Filters(props) {
               </label>
             </div>
           );
-        })}
+        })
+        // O codigo acima passa o array resultande do reduce de marcas para a funcao sortValues que ordena os valores do array por ordem alfabetica ou numerica
+        }
       </div>
 
       {/* Potencia do Modulo */}

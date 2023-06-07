@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import SearchBar from "./SearchBar";
 import SearchMenu from "./SearchBarMenu";
 import styles from "../styles/Navbar.module.css";
@@ -8,11 +8,12 @@ import fgl from "../../public/fgl_logo.png";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import { BsCartFill, BsFillPersonFill } from "react-icons/bs";
 import { signIn, useSession } from "next-auth/react";
+import { FilterContext } from "@/context/FilterContext";
 
 export default function Navbar() {
   const { data: session } = useSession();
   const [toggleMenu, setToggleMenu] = useState(false);
-
+  const { handleOnCheckbox} = useContext(FilterContext);
   return (
     <>
       <div className={styles.navbar}>
@@ -65,23 +66,19 @@ export default function Navbar() {
           {toggleMenu && (
             <div className={styles.navbar_menu_container}>
               <div className={styles.navbar_menu_items}>
-                <Link className={styles.link_menu} href="/geradores">
-                  Geradores
-                </Link>
-
-                <Link className={styles.link_menu} href="/inversores">
+                <input className={styles.link_menu} type="checkbox" name="categoria" value="inversor" onChange={handleOnCheckbox}
                   Inversores
-                </Link>
+                />
 
-                <Link className={styles.link_menu} href="/monitoramento">
+                <Link className={styles.link_menu}  type="checkbox" name="categoria" value="monitoramento" onChange={handleOnCheckbox}>
                   Monitoramento
                 </Link>
 
-                <Link className={styles.link_menu} href="/paineis">
+                <Link className={styles.link_menu} type="checkbox"  name="categoria" value="painel" onChange={handleOnCheckbox}>
                   Painéis
                 </Link>
 
-                <Link className={styles.link_menu} href="/micro-inversores">
+                <Link className={styles.link_menu} type="checkbox" name="categoria" value="microinversor" onChange={handleOnCheckbox}>
                   Micro-Inversores
                 </Link>
                 <SearchMenu />

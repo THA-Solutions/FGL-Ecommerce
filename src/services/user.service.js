@@ -31,8 +31,6 @@ export async function register(body) {
 }
 
 
-
-
 export async function registerAddress(body) {
   try {
     const addressData = JSON.parse(body);
@@ -64,64 +62,6 @@ export async function registerAddress(body) {
     }
   } catch (error) {
     console.error("Erro na criacao do endereço", error);
-  }
-}
-
-export async function updateAddress(body) {
-  try {
-    const addressData = JSON.parse(body);
-    console.log("addressData", addressData);
-
-    const user = await db.user.findUnique({
-      where: {
-        email: addressData.userEmail,
-      },
-    });
-
-    console.log("user", user);
-
-    const address = await db.endereco.findMany({
-      where: {
-        userId: user.id,
-      },
-    });
-
-    console.log("address", address);
-
-    const updatedAddress = await db.endereco.update({
-      where: {
-        id_endereco: address[0].id_endereco,
-      },
-      data: {
-        cep: Number(addressData.cep),
-        logradouro: addressData.logradouro,
-        numero: Number(addressData.numero),
-        bairro: addressData.bairro,
-        complemento: addressData.complemento,
-        cidade: addressData.cidade,
-        estado: addressData.estado,
-      },
-    });
-    console.log("updatedAddress", updatedAddress);
-    return updatedAddress;
-  } catch (error) {
-    console.error("Erro na atualização do endereço", error);
-  }
-}
-
-export async function checkAddress(param) {
-  try {
-    const user = await db.user.findFirst({ where: { email: param } });
-    if (user) {
-      const address = await db.endereco.findMany({
-        where: { userId: user.id },
-      });
-      return address;
-    } else {
-      return null;
-    }
-  } catch {
-    console.error("Erro ao buscar endereço", error);
   }
 }
 
@@ -166,3 +106,85 @@ export async function findUser(token){
     })
     return user
 }
+
+export async function updateAddress(body) {
+  try {
+    const addressData = JSON.parse(body);
+    console.log("addressData", addressData);
+
+    const user = await db.user.findUnique({
+      where: {
+        email: addressData.userEmail,
+      },
+    });
+
+    console.log("user", user);
+
+    const address = await db.endereco.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    console.log("address", address);
+
+    const updatedAddress = await db.endereco.update({
+      where: {
+        id_endereco: address[0].id_endereco,
+      },
+      data: {
+        cep: Number(addressData.cep),
+        logradouro: addressData.logradouro,
+        numero: Number(addressData.numero),
+        bairro: addressData.bairro,
+        complemento: addressData.complemento,
+        cidade: addressData.cidade,
+        estado: addressData.estado,
+      },
+    });
+    console.log("updatedAddress", updatedAddress);
+    return updatedAddress;
+  } catch (error) {
+    console.error("Erro na atualização do endereço", error);
+  }
+}
+
+export async function updateUser(body) {
+  try {
+    const userData = JSON.parse(body);
+    const user = await db.user.findUnique({
+      where: {
+        email: userData.email,
+      },
+    });
+    const updatedUser = await db.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        email: userData.email,
+        phone: Number(userData.phone),
+      },
+    });
+    return updatedUser;
+  } catch (error) {
+    console.error("Erro na atualização do usuário", error);
+  }
+}
+
+export async function checkAddress(param) {
+  try {
+    const user = await db.user.findFirst({ where: { email: param } });
+    if (user) {
+      const address = await db.endereco.findMany({
+        where: { userId: user.id },
+      });
+      return address;
+    } else {
+      return null;
+    }
+  } catch {
+    console.error("Erro ao buscar endereço", error);
+  }
+}
+

@@ -6,6 +6,7 @@ export default async function handler(req, res) {
     const id = Number(comment.id);
     const result = await db.comentarios.create({
       data: {
+        userName: comment.usuario,
         id_produto: id,
         descricao: comment.descricao,
       },

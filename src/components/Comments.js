@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../styles/Comments.module.css";
-
+import { useSession, getSession } from "next-auth/react";
 export default function Comments(comment) {
   const [descricao, setComment] = useState("");
-
+const { data: session } = useSession();
   const changeComment = (txt) => {
     setComment(txt.target.value);
   };
@@ -26,13 +26,6 @@ export default function Comments(comment) {
           </div>
 
           <p className={styles.comment}>{comentario.descricao}</p>
-
-          {/* <div className="small d-flex justify-content-start">
-            <a href="#!" className="d-flex align-items-center me-3">
-              <i className="far fa-comment-dots me-2"></i>
-              <p className="mb-0">Comentar</p>
-            </a>
-          </div> */}
         </div>
       );
     });
@@ -56,22 +49,24 @@ export default function Comments(comment) {
   const id = comment.id;
 
   const handleSubmit = async () => {
-    if (descricao == "") {
+    if (descricao == "" ) {
+      return;
     } else {
       try {
         const comment = {
+          usuario: session?.user.name,
           descricao: descricao,
           id: id,
         };
         const response = await axios.post(
-          "http://localhost:3000/api/comments/postComment",
+          "/api/comments/postComment",
           {
             comment: comment,
           }
         );
         const newComment = {
           descricao: descricao,
-          data_lancamento: new Date().toLocaleDateString(), // assume que a data é a data atual
+          data_lancamento: new Date().toLocaleDateString(), // assume a data atual
         };
         let newDivs = createDivsFromComments([newComment]);
         setCommentCont([...comment_cont, newDivs]);
@@ -81,6 +76,15 @@ export default function Comments(comment) {
       }
     }
   };
+  const [enableComment,setEnableComment]= useState(false)
+
+  useEffect(() => {
+    if(session){
+    setEnableComment(false)
+    }else{
+    setEnableComment(true)
+    }
+  },[session])
 
   return (
     <div className={styles.container}>
@@ -90,6 +94,7 @@ export default function Comments(comment) {
           rows="5"
           value={descricao}
           onChange={changeComment}
+          disabled={enableComment}
         ></textarea>
 
         <div className={styles.button_container}>
@@ -97,6 +102,7 @@ export default function Comments(comment) {
             type="button"
             className={styles.button_postComment}
             onClick={handleSubmit}
+            disabled={enableComment}
           >
             Publicar Comentário
           </button>

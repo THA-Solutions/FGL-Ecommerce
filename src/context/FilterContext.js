@@ -5,19 +5,15 @@ export const FilterContext = createContext();
 export const FilterProvider = ({ children }) => {
   const [listaProdutos, setListaProdutos] = useState([]);
   const [dadosFiltrados, setDadosFiltrados] = useState([]);
-  const [marcasSelecionadas, setMarcasSelecionadas] = useState({});
+  //const [marcasSelecionadas, setMarcasSelecionadas] = useState({});
 
   const handleOnCheckbox = (event) => {
     const filterParam = event.target.name;
-
-    setMarcasSelecionadas({
-      ...marcasSelecionadas,
-      [event.target.value]: event.target.checked,
-    });
+    //setMarcasSelecionadas({
+    //  ...marcasSelecionadas,
+    //  [event.target.value]: event.target.checked,
+    //});
     if (event.target.checked) {
-      //const campoFiltrado = listaProdutos.filter(
-      //  (item) => item.marca === event.target.value
-      //);
       const campoFiltrado = listaProdutos.filter((item) => {
         let value;
         if (event.target.value !== null && filterParam !== null) {

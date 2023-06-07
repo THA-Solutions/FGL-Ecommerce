@@ -2,11 +2,15 @@ import db from "../../../lib/db";
 
 export default async function handlerGetProduct(req, res) {
   try {
-    
+  const {divisao}=req.query.divisao
+
+  const[data,setdata]=useState([])
+  switch (divisao) {
+    case "solar":
     const produtos = await db.produto.findMany({
       select: {
-        categoria: true,
         titulo_produto: true,
+        categoria: true,
         id_produto: true,
         marca_produto: true,
         preco: true,
@@ -71,8 +75,10 @@ export default async function handlerGetProduct(req, res) {
       });
       return data;
     }
+    setdata(dataToFilter())
     res.status(200).json(dataToFilter());
-    return dataToFilter();
+    break;
+  }
   } catch (error) {
     console.error("Erro ao carregar produto", error);
   }

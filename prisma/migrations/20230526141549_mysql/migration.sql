@@ -122,13 +122,13 @@ CREATE TABLE `produto` (
     `categoria` VARCHAR(191) NOT NULL,
     `modelo` VARCHAR(191),
     `quantidade` INTEGER NOT NULL,
+
     `preco` DECIMAL(10, 2) NOT NULL,
     `descricao` VARCHAR(191) NULL,
     `peso` DECIMAL(10, 2) NULL,
     `altura` DECIMAL(10, 2) NULL,
     `largura` DECIMAL(10, 2) NULL,
     `comprimento` DECIMAL(10, 2) NULL,
-
     PRIMARY KEY (`id_produto`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
