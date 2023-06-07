@@ -1,7 +1,10 @@
 import React from "react";
-import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import styles from "../styles/Footer.module.css";
 import Link from "next/link";
+
+import { FaPhone, FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { ImLocation } from "react-icons/im";
+import { IoMail } from "react-icons/io5";
 
 export default function Footer() {
   return (
@@ -11,15 +14,21 @@ export default function Footer() {
           <div className={styles.footer_links_div}>
             <h4>Institucional</h4>
             <Link className={styles.footer_sub_link} href="/AboutCompany">
-              <p>Sobre Empresa</p>
+              <p>Sobre a FGL Distribuidora</p>
             </Link>
           </div>
 
           <div className={styles.footer_links_div}>
-            <h4 className={styles.atendimento}>Atendimento</h4>
-            <p>atendimento@fgldistribuidora.com</p>
-            <p>(44) 99809-6379</p>
-            <p>Av. Melvin Jones 1194</p>
+            <h4>Atendimento</h4>
+            <p className={styles.atendimento}>
+              <IoMail /> atendimento@fgldistribuidora.com
+            </p>
+            <p className={styles.atendimento}>
+              <FaPhone /> (44) 9 9809-6379
+            </p>
+            <p className={styles.atendimento}>
+              <ImLocation /> Av. Melvin Jones, 1194 - Maringá PR
+            </p>
           </div>
 
           {/* <div className={styles.footer_links_div}>

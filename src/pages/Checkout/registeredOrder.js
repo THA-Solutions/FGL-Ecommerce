@@ -1,4 +1,4 @@
-export default function Finish() {
+export default function registeredOrder() {
   return (
     <div>
       <h1>Seu pedido foi cadastro!</h1>
