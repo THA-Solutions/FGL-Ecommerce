@@ -33,7 +33,7 @@ export default function Products() {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/product/getProductList"
+          "/api/product/getProductList",{params:{divisao:value}}
         );
         const listaProdutosTratada = response.data.map((product) => {
           return {

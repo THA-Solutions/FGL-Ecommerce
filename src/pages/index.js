@@ -20,7 +20,7 @@ export default function Home() {
         <div className={styles.item}>
           <button
             onClick={() => {
-              setValueHandler("bebida");
+              setValueHandler("Bebida");
             }}
           >
             <Image
@@ -36,7 +36,7 @@ export default function Home() {
         <div className={styles.item}>
           <button
             onClick={() => {
-              setValueHandler("solar");
+              setValueHandler("Solar");
             }}
           >
             <Image src={solar} alt="imagem_solar" width={200} height={230} />
