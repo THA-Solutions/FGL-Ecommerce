@@ -22,6 +22,36 @@ export default function Filters(props) {
     <>
       <h2 className={styles.filter_title}>FILTROS</h2>
 
+      <div className={styles.filter_category}>
+        <h4 className={styles.filter_category_name}>Categorias</h4>
+
+        {sortValues(
+          produtos.reduce((acc, item) => {
+            if (!acc.includes(item.marca)) {
+              acc.push(item.marca);
+            }
+            return acc;
+          }, [])
+        ).map((marca) => {
+          return (
+            <div className={styles.link} key={marca}>
+              <input
+                onChange={handleOnCheckbox}
+                className={styles.filter_checkbox}
+                type="checkbox"
+                name="marca"
+                id={marca}
+                value={marca}
+              />
+              <label className={styles.filter_subcategory} htmlFor={marca}>
+                {marca}{" "}
+                {/* inversor | placa solar | carregador veicular | baterias */}
+              </label>
+            </div>
+          );
+        })}
+      </div>
+
       {/* Marcas */}
       <div className={styles.filter_category}>
         <h4 className={styles.filter_category_name}>Marca</h4>
