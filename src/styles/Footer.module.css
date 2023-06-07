@@ -55,7 +55,6 @@
 
 .social_media {
   display: flex;
-  flex-direction: row;
   gap: 12px;
 }
 
@@ -130,11 +129,6 @@
 
   .footer_below_links {
     flex-direction: column;
-  }
-
-  .footer_below_links p {
-    margin-left: 0rem;
-    margin-top: 1rem;
   }
 }
 

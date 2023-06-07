@@ -1,4 +1,8 @@
 import { useRouter } from "next/router";
+import styles from "../styles/Index.module.css";
+import Image from "next/image";
+import solar from "../../public/painel.jpg";
+import energetico from "../../public/energetico_logo.jpg";
 
 export default function Home() {
   const router = useRouter();
@@ -10,21 +14,37 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <button
-        onClick={() => {
-          setValueHandler("bebida");
-        }}
-      >
-        Bebidas
-      </button>
-      <button
-        onClick={() => {
-          setValueHandler("solar");
-        }}
-      >
-        Solar
-      </button>
+    <div className={styles.container}>
+      <h1>Selecione uma categoria</h1>
+      <div className={styles.categories}>
+        <div className={styles.item}>
+          <button
+            onClick={() => {
+              setValueHandler("bebida");
+            }}
+          >
+            <Image
+              src={energetico}
+              alt="imagem_bebidas"
+              width={200}
+              height={230}
+            />
+            <p>Bebidas</p>
+          </button>
+        </div>
+
+        <div className={styles.item}>
+          <button
+            onClick={() => {
+              setValueHandler("solar");
+            }}
+          >
+            <Image src={solar} alt="imagem_solar" width={200} height={230} />
+
+            <p>Solar</p>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
