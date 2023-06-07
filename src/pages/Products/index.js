@@ -29,7 +29,8 @@ export default function Products() {
   }
 
   useEffect(() => {
-    console.log(localStorage.getItem("value"));
+    const value = localStorage.getItem("value");
+
     async function fetchData() {
       try {
         const response = await axios.get(

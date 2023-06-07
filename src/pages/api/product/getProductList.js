@@ -81,7 +81,7 @@ export default async function handlerGetProduct(req, res) {
     break;
 
     case "Bebidas":
-    produtos = await db.produto.findMany({
+    const produto = await db.produto.findMany({
       where:{divisao:divisao},
       select: {
         titulo_produto: true,
@@ -115,7 +115,7 @@ export default async function handlerGetProduct(req, res) {
     });
 
     function dataToFilter2() {
-      const data = produtos.map((produto) => {
+      const data = produto.map((produto) => {
         const produtos = {
           //Tratamento de dados para retornar apenas os atributos necessarios
           categoria: produto.categoria,
