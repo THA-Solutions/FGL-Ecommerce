@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <>
       <div className={styles.navbar}>
-        <Link href="/">
+        <Link href="/Products">
           <Image
             priority={true}
             className={styles.navbar_img}
@@ -66,20 +66,8 @@ export default function Navbar() {
           {toggleMenu && (
             <div className={styles.navbar_menu_container}>
               <div className={styles.navbar_menu_items}>
-                <input className={styles.link_menu} type="checkbox" name="categoria" value="inversor" onChange={handleOnCheckbox}
-                  Inversores
-                />
-
-                <Link className={styles.link_menu}  type="checkbox" name="categoria" value="monitoramento" onChange={handleOnCheckbox}>
-                  Monitoramento
-                </Link>
-
-                <Link className={styles.link_menu} type="checkbox"  name="categoria" value="painel" onChange={handleOnCheckbox}>
-                  Painéis
-                </Link>
-
-                <Link className={styles.link_menu} type="checkbox" name="categoria" value="microinversor" onChange={handleOnCheckbox}>
-                  Micro-Inversores
+                <Link className={styles.link_menu} href="/">
+                  Lista de produtos
                 </Link>
                 <SearchMenu />
                 <Link className={styles.button_menu} href="/Cart">
@@ -98,11 +86,7 @@ export default function Navbar() {
         </div>
       </div>
       <div className={styles.category_container}>
-        <Link href="/geradores">Geradores</Link>
-        <Link href="/inversores">Inversores</Link>
-        <Link href="/monitoramento">Monitoramento</Link>
-        <Link href="/paineis">Painéis</Link>
-        <Link href="/micro-inversores">Micro-Inversores</Link>
+        <Link href="/">Lista de Produtos</Link>
       </div>
     </>
   );

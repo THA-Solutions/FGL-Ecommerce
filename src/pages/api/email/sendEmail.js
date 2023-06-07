@@ -33,7 +33,7 @@ export default async function sendEmail(req, res) {
           <h4>Quantidade: ${item.quantidade}</h4>
           <h4>Total do produto: ${item.total}</h4>
 
-        </div>`
+        </div>`;
     });
 
     const emailTemplate = `
@@ -89,7 +89,7 @@ export default async function sendEmail(req, res) {
 
     const message = {
       from: "tecnologia@thasolutions.com.br",
-      to: "cokif54351@vaband.com",
+      to: "tecnologia@thasolutions.com.br",
       subject: "Novo pedido - FGL Distribuidora",
       html: emailTemplate,
     };
@@ -97,6 +97,6 @@ export default async function sendEmail(req, res) {
     transport.sendMail(message);
     res.json({ erro: false, mensagem: "Email enviado com sucesso" });
   } catch (error) {
-    console.error("Erro no envio do Email :",error);
+    console.error("Erro no envio do Email :", error);
   }
 }

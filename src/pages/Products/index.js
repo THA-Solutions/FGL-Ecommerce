@@ -1,18 +1,20 @@
-import styles from "../styles/Products.module.css";
+import styles from "@/styles/Products.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import CarouselComponent from "./Carousel";
-import UInumber from "@/UI/UInumber";
-import Filters from "./Filters";
-import PopUp from "./PopUp";
-import { useContext, useState, useEffect } from "react";
-import { BsFillCartPlusFill } from "react-icons/bs";
 import { useSession, getSession } from "next-auth/react";
-import { SearchContext } from "../context/SearchContext";
+import { BsFillCartPlusFill } from "react-icons/bs";
+import { useContext, useState, useEffect } from "react";
+
+import CarouselComponent from "../../components/Carousel";
+import UInumber from "@/UI/UInumber";
+import Filters from "@/components/Filters";
+import PopUp from "@/components/PopUp";
+
+import { SearchContext } from "@/context/SearchContext";
 import { FilterContext } from "@/context/FilterContext";
 
-export default function Products({ value }) {
+export default function Products() {
   const { data: session } = useSession();
   const { dadosFiltrados } = useContext(FilterContext);
   const { search } = useContext(SearchContext);
@@ -27,11 +29,11 @@ export default function Products({ value }) {
   }
 
   useEffect(() => {
-    console.log("value", value);
+    console.log(localStorage.getItem("value"));
     async function fetchData() {
       try {
         const response = await axios.get(
-          "/api/product/getProductList",{params:{divisao:value}}
+          "http://localhost:3000/api/product/getProductList"
         );
         const listaProdutosTratada = response.data.map((product) => {
           return {
@@ -40,7 +42,6 @@ export default function Products({ value }) {
             preco: product.preco,
             marca: product.marca,
             modelo: product.modelo,
-            categoria: product.categoria,
             potencia_modulo: product.potencia_modulo,
             potencia_saida: product.potencia_saida,
             quantidade_mppt: product.quantidade_mppt,
@@ -97,7 +98,7 @@ export default function Products({ value }) {
 
   async function addCartItem(item) {
     const addCartItem = await axios.post(
-      "/api/cart/addItem",
+      "http://localhost:3000/api/cart/addItem",
       {
         shoppingCart: item,
         email: session.user.email,
@@ -122,7 +123,6 @@ export default function Products({ value }) {
   }, [addCartPopUp]);
 
   return (
-    console.log(produtos),
     <>
       <div className={styles.container_carousel}>
         <CarouselComponent />

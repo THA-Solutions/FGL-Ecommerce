@@ -25,7 +25,8 @@ export default NextAuth({
             body: Object.entries(credentials)
               .map((e) => e.join("="))
               .join("&"),
-          }).then((res) => res.json())
+          })
+            .then((res) => res.json())
             .catch((err) => null);
           if (user) {
             return {
@@ -36,13 +37,13 @@ export default NextAuth({
               phone: user.phone,
             }; // Credenciais válidas e usuário autorizado
           } else {
-            return null
+            return null;
           }
         } catch (error) {
           console.error("Erro ao logar com as credentials", error);
           return null; // Ocorreu um erro ao verificar as credenciais
         }
-      }
+      },
     }),
 
     GithubProvider({

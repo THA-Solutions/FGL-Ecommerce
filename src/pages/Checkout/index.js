@@ -3,18 +3,19 @@ import styles from "../../styles/Checkout.module.css";
 
 import { getSession } from "next-auth/react";
 import { useEffect, useState, useLayoutEffect } from "react";
-import { useForm } from "react-hook-form";
+
+import CheckoutFormUser from "@/components/CheckoutFormUser";
+import CheckoutFormAddress from "@/components/CheckoutFormAddress";
+import CheckoutFormProducts from "@/components/CheckoutFormProducts";
 
 export default function Checkout() {
   const [session, setSession] = useState();
   const [address, setAddress] = useState([]);
   const [updateInfo, setUpdateInfo] = useState(true);
-  const [updateUserInfo, setUpdateUserInfo] = useState(true);
   const [error, setError] = useState("");
   const [editAddress, setEditAddress] = useState(false);
   const [itemCart, setItemCart] = useState([]);
   const [total, setTotal] = useState(0);
-  const [EditUserDetails,setEditUserDetails]=useState(false);
   const {
     register,
     handleSubmit,
@@ -55,7 +56,7 @@ export default function Checkout() {
     getCartItems();
   }, []);
 
-  const updateAddress = async (body) => {
+  const onSubmit = async (body) => {
     setEditAddress(false);
     setUpdateInfo(true);
     const session = await getSession();
@@ -71,23 +72,6 @@ export default function Checkout() {
           complemento: body.complemento,
           cidade: body.cidade,
           estado: body.estado,
-        }),
-      });
-    } catch (error) {
-      console.error("Erro na atualização do endereço: ", error);
-    }
-  };
-
-
-  const updateUserDetails = async (data) => {
-    setEditUserDetails(false);
-    setUpdateUserInfo(true);
-    try {
-      await fetch("/api/user/updateUser", {
-        method: "POST",
-        body: JSON.stringify({
-          email: data.email,
-          telefone: data.phone,
         }),
       });
     } catch (error) {
@@ -138,7 +122,7 @@ export default function Checkout() {
             <header>Confirme seus dados</header>
 
             <form
-              onSubmit={handleSubmit(updateUserDetails)}
+              onSubmit={handleSubmit(onSubmit)}
               className={styles.formClass}
             >
             
@@ -146,8 +130,7 @@ export default function Checkout() {
                 <label>Nome</label>
                 <input
                   className={styles.input}
-                  id="name"
-                  placeholder={session?.user?.name|| "Nome"}
+                  placeholder={session?.user?.name|| "CEP"}
                   type="text"
                   disabled={true}
                 />
@@ -156,8 +139,7 @@ export default function Checkout() {
                 <label>E-mail</label>
                 <input
                   className={styles.input}
-                  id="email"
-                  placeholder={session?.user?.email|| "E-Mail"}
+                  placeholder={session?.user?.email|| "CEP"}
                   type="text"
                   disabled={true}
                 />
@@ -166,30 +148,11 @@ export default function Checkout() {
                 <label>Telefone</label>
                 <input
                   className={styles.input}
-                  id="phone"
-                  placeholder={session?.user?.phone|| "Telefone"}
+                  placeholder={session?.user?.phone|| "CEP"}
                   type="text"
-                  {...register("phone")}
-                  disabled={false}
+                  disabled={true}
                 />
               </div>
-              <div className={styles.field + " " + styles.button_field}>
-              {EditUserDetails ? (
-                  <button type="submit" className={styles.button_submit}>
-                    SALVAR
-                  </button>
-                ): (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setUpdateUserInfo(false);
-                    setEditUserDetails(true);
-                  }}
-                >
-                  EDITAR
-                </button>
-                )}
-                </div>
             </form>
           </div>
         </div>
@@ -202,7 +165,7 @@ export default function Checkout() {
             <header>Confirme seu endereço</header>
 
             <form
-              onSubmit={handleSubmit(updateAddress)}
+              onSubmit={handleSubmit(onSubmit)}
               className={styles.formClass}
             >
               <div className={styles.field + " " + styles.input_field}>
@@ -215,11 +178,11 @@ export default function Checkout() {
                   onBlur={checkCEP}
                   disabled={updateInfo}
                 />
-                {editAddress===true ?errors?.cep?.type === "required" && (
+                {errors?.cep?.type === "required" && (
                   <span className={styles.error_message}>
                     O CEP é obrigatório.
                   </span>
-                ): null}
+                )}
                 {error && <span>{error}</span>}
               </div>
               <div className={styles.field + " " + styles.input_field}>
@@ -231,11 +194,11 @@ export default function Checkout() {
                   {...register("logradouro", { required: true })}
                   disabled={updateInfo}
                 />
-                {editAddress===true ?errors?.logradouro?.type === "required" && (
+                {errors?.logradouro?.type === "required" && (
                   <span className={styles.error_message}>
                     O logradouro é obrigatório.
                   </span>
-                ): null}
+                )}
               </div>
               <div className={styles.group_number_neighborhood}>
                 <div className={styles.field + " " + styles.input_field}>
@@ -247,11 +210,11 @@ export default function Checkout() {
                     {...register("numero", { required: true })}
                     disabled={updateInfo}
                   />
-                  {editAddress===true ?errors?.numero?.type === "required" && (
+                  {errors?.numero?.type === "required" && (
                     <span className={styles.error_message}>
                       O número é obrigatório.
                     </span>
-                  ): null}
+                  )}
                 </div>
                 <div className={styles.field + " " + styles.input_field}>
                   <input
@@ -262,11 +225,11 @@ export default function Checkout() {
                     {...register("bairro", { required: true })}
                     disabled={updateInfo}
                   />
-                  {editAddress===true ?errors?.bairro?.type === "required" && (
+                  {errors?.bairro?.type === "required" && (
                     <span className={styles.error_message}>
                       O bairro é obrigatório.
                     </span>
-                  ): null}
+                  )}
                 </div>
               </div>
               <div className={styles.field + " " + styles.input_field}>
@@ -289,11 +252,11 @@ export default function Checkout() {
                     {...register("cidade", { required: true })}
                     disabled={updateInfo}
                   />
-                  {editAddress===true ?errors?.cidade?.type === "required" && (
+                  {errors?.cidade?.type === "required" && (
                     <span className={styles.error_message}>
                       A cidade é obrigatória.
                     </span>
-                  ): null}
+                  )}
                 </div>
 
                 <div className={styles.field + " " + styles.input_field}>
@@ -305,15 +268,15 @@ export default function Checkout() {
                     {...register("estado", { required: true })}
                     disabled={updateInfo}
                   />
-                  { editAddress===true ? errors?.estado?.type === "required" && (
+                  {errors?.estado?.type === "required" && (
                     <span className={styles.error_message}>
                       O estado é obrigatório.
                     </span>
-                  ): null}
+                  )}
                 </div>
               </div>
               <div className={styles.field + " " + styles.button_field}>
-                { editAddress ? (
+                {editAddress ? (
                   <button type="submit" className={styles.button_submit}>
                     SALVAR
                   </button>
@@ -335,22 +298,12 @@ export default function Checkout() {
       </section>
 
       {/* Dados da compra */}
-      <section className={styles.container + " " + styles.forms}>
-        <div className={styles.form + " " + styles.login}>
-          <div className={styles.form_content}>
-            <header>Confirme seus produtos</header>
-            {itemCart.map((item, index) => (
-              <div key={index}>
-                <p>{item.titulo_produto}</p>
-                <p>{item.quantidade}</p>
-                <p>{item.total}</p>
-              </div>
-              )
-            )}
-          </div>
-        </div>
-      </section>
-      <button onClick={() => sendEmail()}>FINALIZAR</button>
+      <CheckoutFormProducts
+        itemCart={itemCart}
+        total={total}
+        session={session}
+        address={address}
+      />
     </div>
   );
 }

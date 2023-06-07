@@ -10,6 +10,7 @@ import { FaArrowLeft, FaTrashAlt } from "react-icons/fa";
 import { getSession } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { BsCartPlus } from "react-icons/bs";
+import { useForm } from "react-hook-form";
 
 export default function Cart() {
   const [itemCart, setItemCart] = useState([]);
@@ -17,6 +18,12 @@ export default function Cart() {
   const [refreshCart, setRefreshCart] = useState(false);
   const { data: session } = useSession();
   const [route, setRoute] = useState("");
+  const [frete, setFrete] = useState(0);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     try {
@@ -42,7 +49,6 @@ export default function Cart() {
           setRoute("/Checkout");
           return;
         } else {
- 
           setRoute("/Register/address");
           return;
         }
@@ -92,21 +98,21 @@ export default function Cart() {
     return result;
   };
 
-  //const sendEmail = async () => {
-  //  const result = await axios.post(`/api/email/sendEmail`, {
-  //    itemCart: itemCart,
-  //    total: total,
-  //    session: session,
-  //  });
-  //  return result;
-  //};
+  async function calcularFrete(data) {
+    const result = await fetch("/api/cart/calculateFreight", {
+      method: "POST",
+      body: JSON.stringify(data.cep),
+    }).then((res) => res.json());
+    setFrete(Number(result[0].Valor.replace(",", ".")));
+    return;
+  }
 
   return (
     <>
       <div className={styles.cart}>
         <div className={styles.container_left}>
           <div className={styles.container_top_buttons}>
-            <Link className={styles.link_product_list} href="/">
+            <Link className={styles.link_product_list} href="/Products">
               <FaArrowLeft /> Continue comprando
             </Link>
             <button
@@ -133,9 +139,15 @@ export default function Cart() {
           <hr />
           <div className={styles.calculate_freight}>
             <h3>Calcule o frete</h3>
-            <form action="/calcular-frete">
-              <input type="number" placeholder="Digite seu CEP" name="cep" />
-              <button type="subimit"> Calcular </button>
+            <form onSubmit={handleSubmit(calcularFrete)}>
+              <input
+                type="text"
+                placeholder="Digite seu CEP"
+                id="cep"
+                {...register("cep", { required: true })}
+              />
+              {errors?.cep?.type === "required" && <span>Digite um CEP</span>}
+              <button type="submit"> Calcular </button>
               <Link
                 className={styles.calculate_freight_link}
                 href="https://buscacepinter.correios.com.br/app/endereco/index.php"
@@ -143,14 +155,20 @@ export default function Cart() {
               >
                 Não sei meu CEP
               </Link>
+              {frete > 0 && (
+                <h4>
+                  Valor do frete:
+                  <UInumber>{frete}</UInumber>
+                </h4>
+              )}
             </form>
           </div>
         </div>
         <div className={styles.container_right}>
           <div className={styles.summary}>
-            <h1>Resumo da compra</h1>
+            <h1>Resumo do pedido</h1>
             <div className={styles.summary_total}>
-              <h4>Valor dos produtos :</h4>
+              <h4>Valor dos produtos: </h4>
               <h3>
                 <UInumber>{`${total}`}</UInumber>
               </h3>
@@ -158,17 +176,17 @@ export default function Cart() {
             <div className={styles.summary_shipping}>
               <h4>Frete: </h4>
               <h3>
-                <UInumber>0</UInumber>
+                <UInumber>{frete}</UInumber>
               </h3>
             </div>
             <div className={styles.summary_total_term}>
               <h4>Total à prazo: </h4>
               <h3>
-                <UInumber>{`${total}`}</UInumber>
+                <UInumber>{`${total + frete}`}</UInumber>
               </h3>
             </div>
             <h5>
-              (em até 10x de <UInumber>{`${total / 10}`}</UInumber>)
+              (em até 10x de <UInumber>{`${(total + frete) / 10}`}</UInumber>)
             </h5>
             <div className={styles.summary_total_pix}>
               <h4>Total à vista no Pix: </h4>
@@ -180,10 +198,9 @@ export default function Cart() {
               </h4>
             </div>
           </div>
-          {
           <Link href={route}>
-            <button> FINALIZAR COMPRA </button>
-          </Link>}
+            <button> REVISAR PEDIDO </button>
+          </Link>
         </div>
       </div>
     </>

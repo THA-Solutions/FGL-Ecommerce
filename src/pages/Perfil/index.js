@@ -6,12 +6,10 @@ import perfilImagemAlternative from "../../../public/fgl_quadrado.png";
 
 import { getSession, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 
 export default function Perfil() {
   const { data: session } = useSession();
   const [address, setAddress] = useState([]);
-
   const [updateInfo, setUpdateInfo] = useState(true);
 
   useEffect(() => {
@@ -61,9 +59,7 @@ export default function Perfil() {
               <input
                 className={styles.input}
                 id="firstName"
-                placeholder={
-                  session?.user?.name
-                }
+                placeholder={session?.user?.name}
                 type="text"
                 disabled={updateInfo}
               />
@@ -72,9 +68,7 @@ export default function Perfil() {
               <input
                 className={styles.input}
                 id="lastName"
-                placeholder={
-                  session?.user?.lastName
-                }
+                placeholder={session?.user?.lastName}
                 type="text"
                 disabled={updateInfo}
               />
