@@ -22,6 +22,6 @@ export default async function calculateFreight(req, res) {
 
     res.json(precoFrete);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }

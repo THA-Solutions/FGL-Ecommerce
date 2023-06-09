@@ -32,7 +32,6 @@ export default function RegisterAdress() {
           estado: body.estado,
         }),
       });
-      console.log(address, "cadastrado com sucesso");
       router.push("/Checkout");
     } catch (error) {
       console.error("Erro no cadastro do usuario: ", error);

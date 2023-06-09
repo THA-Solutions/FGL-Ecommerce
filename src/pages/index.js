@@ -9,6 +9,7 @@ export default function Home() {
 
   function setValueHandler(value) {
     localStorage.setItem("value", value);
+    sessionStorage.setItem("value", value);
 
     router.push("/Products");
   }

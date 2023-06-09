@@ -14,8 +14,6 @@ export default NextAuth({
       credentials: {},
       authorize: async (credentials) => {
         try {
-          console.log(credentials, "credentials");
-
           const user = await fetch("/api/user/login", {
             method: "POST",
             headers: {

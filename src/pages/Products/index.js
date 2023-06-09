@@ -33,9 +33,10 @@ export default function Products() {
 
     async function fetchData() {
       try {
-        const response = await axios.get(
-          "/api/product/getProductList",{params:{divisao:value}}
-        );
+        const response = await axios.get("/api/product/getProductList", {
+          params: { divisao: value },
+        });
+
         const listaProdutosTratada = response.data.map((product) => {
           return {
             id: product.id_produto,
@@ -43,6 +44,7 @@ export default function Products() {
             preco: product.preco,
             marca: product.marca,
             modelo: product.modelo,
+            categoria: product.categoria,
             potencia_modulo: product.potencia_modulo,
             potencia_saida: product.potencia_saida,
             quantidade_mppt: product.quantidade_mppt,
@@ -99,7 +101,7 @@ export default function Products() {
 
   async function addCartItem(item) {
     const addCartItem = await axios.post(
-      "http://localhost:3000/api/cart/addItem",
+      "http://fgldistribuidora.com.br/api/cart/addItem",
       {
         shoppingCart: item,
         email: session.user.email,
@@ -147,7 +149,9 @@ export default function Products() {
                   <Image
                     width={220}
                     height={300}
-                    src={`/${product.marca}/${subCaract(product.modelo)}.png`}
+                    src={`/${product.marca.toLowerCase()}/${subCaract(
+                      product.modelo
+                    )}.png`}
                     alt=""
                     className={styles.product_img + " " + styles.img}
                   />
@@ -158,6 +162,7 @@ export default function Products() {
                 <UInumber classNameProp={styles.price}>
                   {product.preco}
                 </UInumber>
+
                 <i
                   className={styles.add_cart}
                   onClick={() => {

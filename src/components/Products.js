@@ -27,12 +27,11 @@ export default function Products({ value }) {
   }
 
   useEffect(() => {
-    console.log("value", value);
     async function fetchData() {
       try {
-        const response = await axios.get(
-          "/api/product/getProductList",{params:{divisao:value}}
-        );
+        const response = await axios.get("/api/product/getProductList", {
+          params: { divisao: value },
+        });
         const listaProdutosTratada = response.data.map((product) => {
           return {
             id: product.id_produto,
@@ -96,13 +95,10 @@ export default function Products({ value }) {
   };
 
   async function addCartItem(item) {
-    const addCartItem = await axios.post(
-      "/api/cart/addItem",
-      {
-        shoppingCart: item,
-        email: session.user.email,
-      }
-    );
+    const addCartItem = await axios.post("/api/cart/addItem", {
+      shoppingCart: item,
+      email: session.user.email,
+    });
     return addCartItem.data;
   }
 
@@ -122,7 +118,6 @@ export default function Products({ value }) {
   }, [addCartPopUp]);
 
   return (
-    console.log(produtos),
     <>
       <div className={styles.container_carousel}>
         <CarouselComponent />

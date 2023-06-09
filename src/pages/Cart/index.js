@@ -191,7 +191,7 @@ export default function Cart() {
             <div className={styles.summary_total_pix}>
               <h4>Total à vista no Pix: </h4>
               <h3>
-                <UInumber>{`${total}`}</UInumber>
+                <UInumber>{`${total + frete}`}</UInumber>
               </h3>
               <h4>
                 (economia de <UInumber>0</UInumber>)

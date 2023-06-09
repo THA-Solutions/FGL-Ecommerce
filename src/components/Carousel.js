@@ -10,26 +10,26 @@ export default function CarouselComponent() {
     <Image
       width={1300}
       height={150}
-      src="https://source.unsplash.com/random/1300x150/?painel"
+      src="https://source.unsplash.com/random/1300x150/?festival"
       alt="Imagem 1"
       className={styles.img_carousel}
     />,
     <Image
       width={1300}
       height={150}
-      src="https://source.unsplash.com/random/1300x150/?painel"
+      src="https://source.unsplash.com/random/1300x150/?drink"
       alt="Imagem 2"
     />,
     <Image
       width={1300}
       height={150}
-      src="https://source.unsplash.com/random/1300x150/?painel"
+      src="https://source.unsplash.com/random/1300x150/?beach"
       alt="Imagem 3"
     />,
     <Image
       width={1300}
       height={150}
-      src="https://source.unsplash.com/random/800x150/?painel"
+      src="https://source.unsplash.com/random/800x150/?solar"
       alt="Imagem 4"
     />,
   ]);

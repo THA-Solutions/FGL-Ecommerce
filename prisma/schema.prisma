@@ -4,10 +4,10 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOWDATABASE_URL")
-  relationMode = "prisma"
+  relationMode      = "prisma"
 }
 
 model carregamento {
@@ -25,6 +25,7 @@ model comentarios {
   id_comentario   Int       @id @default(autoincrement())
   descricao       String?
   data_lancamento DateTime? @default(now())
+  userName        String?   @db.VarChar(255)
   produto         produto?  @relation(fields: [id_produto], references: [id_produto], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -112,7 +113,7 @@ model pedido {
 
 model produto {
   id_produto      Int               @id @default(autoincrement())
-  titulo_produto  String
+  titulo_produto  String?           @db.VarChar(255)
   marca_produto   String?
   categoria       String
   modelo          String?
@@ -123,6 +124,7 @@ model produto {
   altura          Decimal?          @db.Decimal(10, 2)
   largura         Decimal?          @db.Decimal(10, 2)
   comprimento     Decimal?          @db.Decimal(10, 2)
+  divisao         String?           @db.VarChar(255)
   carregamento    carregamento[]
   comentarios     comentarios[]
   imagens         imagens[]
@@ -200,4 +202,13 @@ model endereco {
   user        user    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_endereco_usuario")
 
   @@map("endereco")
+}
+
+model bebidas {
+  id_produto Int?
+  id_bebida  BigInt @id @unique(map: "id_bebida") @default(autoincrement()) @db.UnsignedBigInt
+  volume     Float?
+  qtde_fardo Int?
+
+  @@index([id_produto], map: "fk_produto")
 }

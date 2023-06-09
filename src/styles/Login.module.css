@@ -58,13 +58,13 @@
 .field button {
   color: #fff;
   font-weight: 700;
-  background-color: orange;
+  background-color: #cacaca;
   transition: 0.3s;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .field button:hover {
-  background-color: #016dcb;
+  /* background-color: #016dcb; */
 }
 
 .button_field {

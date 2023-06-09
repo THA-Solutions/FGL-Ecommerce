@@ -9,12 +9,10 @@ export default function RegisterProducts() {
   } = useForm();
 
   const onSubmit = async (body) => {
-    console.log(body);
-
     try {
       // cadastro no banco
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

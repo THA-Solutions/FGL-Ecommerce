@@ -15,7 +15,6 @@ export default function CheckoutFormUser({ session }) {
   const onSubmitPhone = async (body) => {
     setEditPhone(false);
     setUpdatePhone(true);
-    console.log(body);
   };
 
   return (

@@ -47,17 +47,21 @@ export default function Footer() {
           <div className={styles.footer_links_div}>
             <h4>Redes Sociais</h4>
             <div className={styles.social_media}>
-              <Link className={styles.footer_sub_link} href="/face-empresa">
+              <Link className={styles.footer_sub_link} href="/Products">
                 <p>
                   <FaFacebook />
                 </p>
               </Link>
-              <Link className={styles.footer_sub_link} href="/insta-empresa">
+              <Link
+                className={styles.footer_sub_link}
+                href="https://www.instagram.com/fgldistribuidora.mga/"
+                target="_blank"
+              >
                 <p>
                   <FaInstagram />
                 </p>
               </Link>
-              <Link className={styles.footer_sub_link} href="/linkedin-empresa">
+              <Link className={styles.footer_sub_link} href="/Products">
                 <p>
                   <FaLinkedin />
                 </p>

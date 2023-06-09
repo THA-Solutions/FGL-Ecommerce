@@ -19,12 +19,9 @@ export default function Login() {
       const res = await signIn("credentials", {
         email: data.email,
         password: data.password,
-
-      })
-      .catch((error) => {
-        console.error(error,"error");
+      }).catch((error) => {
+        console.error(error, "error");
       });
-
     } catch (error) {
       setError(error.message);
     }
@@ -48,6 +45,7 @@ export default function Login() {
                 id="email"
                 type="email"
                 placeholder="E-mail"
+                disabled={true}
                 {...register("email", {
                   required: true,
                   validate: (value) => validator.isEmail(value),
@@ -72,6 +70,7 @@ export default function Login() {
                 id="password"
                 placeholder="Senha"
                 type="password"
+                disabled={true}
                 {...register("password", { required: true })}
               />
               {errors?.password?.type === "required" && (
@@ -87,7 +86,9 @@ export default function Login() {
             </div>
 
             <div className={styles.field + " " + styles.button_field}>
-              <button type="submit">ENTRAR</button>
+              <button type="submit" disabled={true}>
+                ENTRAR
+              </button>
             </div>
 
             <div className={styles.form_link}>
@@ -149,4 +150,4 @@ export const getServerSideProps = async (ctx) => {
       session,
     },
   };
-}
+};

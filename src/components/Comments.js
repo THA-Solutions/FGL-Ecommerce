@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../styles/Comments.module.css";
 import { useSession, getSession } from "next-auth/react";
+
 export default function Comments(comment) {
   const [descricao, setComment] = useState("");
-const { data: session } = useSession();
+  const { data: session } = useSession();
   const changeComment = (txt) => {
     setComment(txt.target.value);
   };
@@ -19,7 +20,9 @@ const { data: session } = useSession();
           key={comentario.id_comentario}
         >
           <div className={styles.user_date_container}>
-            <h3 className={styles.user_comment}>Usuário: {comentario.nome}</h3>
+            <h3 className={styles.user_comment}>
+              Usuário: {comentario.userName}
+            </h3>
             <h3 className={styles.date_comment}>
               Data: {comentario.data_lancamento}
             </h3>
@@ -34,6 +37,7 @@ const { data: session } = useSession();
   useEffect(() => {
     let data = comment.comment.map((comment) => {
       return {
+        userName: comment.userName,
         descricao: comment.descricao,
         data_lancamento: comment.data_lancamento,
       };
@@ -44,27 +48,25 @@ const { data: session } = useSession();
     if (comment_cont.length === 0) {
       setCommentCont([...comment_cont, ...newDivs]);
     }
-  }, [comment]);
+  }, [comment, comment_cont]);
 
   const id = comment.id;
 
   const handleSubmit = async () => {
-    if (descricao == "" ) {
+    if (descricao == "") {
       return;
     } else {
       try {
         const comment = {
-          usuario: session?.user.name,
+          userName: session?.user.name,
           descricao: descricao,
           id: id,
         };
-        const response = await axios.post(
-          "/api/comments/postComment",
-          {
-            comment: comment,
-          }
-        );
+        await axios.post("/api/comments/postComment", {
+          comment: comment,
+        });
         const newComment = {
+          userName: session?.user.name,
           descricao: descricao,
           data_lancamento: new Date().toLocaleDateString(), // assume a data atual
         };
@@ -76,15 +78,15 @@ const { data: session } = useSession();
       }
     }
   };
-  const [enableComment,setEnableComment]= useState(false)
+  const [enableComment, setEnableComment] = useState(false);
 
   useEffect(() => {
-    if(session){
-    setEnableComment(false)
-    }else{
-    setEnableComment(true)
+    if (session) {
+      setEnableComment(false);
+    } else {
+      setEnableComment(true);
     }
-  },[session])
+  }, [session]);
 
   return (
     <div className={styles.container}>
